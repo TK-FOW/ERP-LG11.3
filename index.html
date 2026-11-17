@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bürodesign GmbH – Finanzbuchhaltung (FOW 11 · LG 11.3)</title>
+<style>
+:root{--bg:#f1f2ee;--card:#fff;--ink:#1c2924;--mut:#606d67;--line:#dce1db;--gr:#17824a;--grd:#0d5a32;--grl:#e5f2e9;
+--soll:#1a6c88;--solll:#e3f0f4;--hab:#ad5327;--habl:#f8eae1;--warn:#b3261e;--warnl:#fbe9e7;--amb:#8a6100;--ambl:#fdf3d7;--side:#1e2c27;--r:12px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em;text-wrap:balance}
+h1{font-size:1.7rem;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.25rem}
+h3{font-size:1rem}
+p{margin:0 0 .8em}
+.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.muted{color:var(--mut)}
+.small{font-size:.875rem}
+/* Kopf */
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:10px 18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:38px;height:38px;border-radius:9px;background:var(--gr);position:relative;flex:none}
+.mark:before{content:"";position:absolute;left:8px;right:8px;top:12px;height:3px;background:#fff;border-radius:2px}
+.mark:after{content:"";position:absolute;left:17.5px;top:12px;bottom:8px;width:3px;background:#fff;border-radius:2px}
+.wm{font-weight:300;letter-spacing:.2em;font-size:1.05rem;color:#4b5651;white-space:nowrap}
+.tag{font-size:.72rem;font-weight:700;color:var(--gr);letter-spacing:.03em}
+.topinfo{flex:1;min-width:180px;font-weight:600;font-size:.95rem}
+.topbtn{display:flex;gap:6px;flex-wrap:wrap}
+.topbtn button,.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 13px;min-height:42px;font-weight:600;font-size:.9rem}
+.topbtn button:hover,.btn:hover{border-color:var(--gr);color:var(--grd)}
+.btn.pri{background:var(--gr);border-color:var(--gr);color:#fff}
+.btn.pri:hover{background:var(--grd);color:#fff}
+.btn.ghost{background:transparent}
+.btn.warn{color:var(--warn)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{min-height:34px;padding:4px 10px;font-size:.82rem}
+.chip{display:inline-block;font-size:.72rem;font-weight:700;border-radius:99px;padding:2px 10px;margin-left:6px;vertical-align:middle}
+.chip.uebung{background:var(--grl);color:var(--grd)}
+.chip.pruefung{background:var(--ambl);color:var(--amb)}
+/* Layout */
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 62px)}
+.steps{background:var(--side);padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+.steps button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:0;color:#c9d3ce;padding:10px 10px;border-radius:9px;font-weight:600;font-size:.93rem;min-height:44px}
+.steps button:hover{background:rgba(255,255,255,.07)}
+.steps button.on{background:var(--gr);color:#fff}
+.steps .n{width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-size:.78rem;flex:none}
+.steps .done .n{background:#fff;color:var(--grd);border-color:#fff}
+.steps .lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:#8fa098;padding:4px 10px 8px}
+main{padding:22px clamp(14px,3vw,34px) 60px;max-width:1280px;width:100%}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin-bottom:18px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.grid2>.card{margin:0}
+.eyebrow{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gr);margin-bottom:4px}
+.hero{background:linear-gradient(120deg,var(--grd),var(--gr));color:#fff;border-radius:var(--r);padding:26px 26px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero .eyebrow{color:#bfe5cc}
+.hero p{margin:0;opacity:.92;max-width:60ch}
+.hero:after{content:"";position:absolute;right:-30px;top:-30px;width:230px;height:230px;border-radius:50%;border:34px solid rgba(255,255,255,.08)}
+.pagehead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.pagehead p{margin:0;color:var(--mut);max-width:70ch}
+.foot{display:flex;justify-content:space-between;gap:10px;margin-top:8px}
+label.f{display:block;font-size:.82rem;font-weight:600;color:var(--mut);margin-bottom:10px}
+label.f input,label.f select,label.f textarea{display:block;width:100%;margin-top:4px;border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff;font-weight:400;color:var(--ink);min-height:42px}
+textarea{resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86rem}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--gr);outline-offset:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:#fff;padding:8px 14px;min-height:42px;font-weight:600;font-size:.88rem}
+.seg button.on{background:var(--gr);color:#fff}
+.opt{margin-bottom:14px}
+.opt .t{font-size:.82rem;font-weight:600;color:var(--mut);margin-bottom:5px}
+.opt .d{font-size:.82rem;color:var(--mut);margin-top:5px}
+/* Infoboxen */
+.info{border-left:4px solid var(--gr);background:var(--grl);border-radius:0 9px 9px 0;padding:10px 14px;margin-bottom:14px;font-size:.92rem}
+.info.amb{border-color:#c79a1a;background:var(--ambl)}
+.fb{border-radius:10px;padding:12px 14px;margin-top:12px;font-size:.95rem}
+.fb.ok{background:var(--grl);color:var(--grd);border:1px solid #b9dcc5}
+.fb.err{background:var(--warnl);color:#7d1a14;border:1px solid #f0c1bc}
+.fb.info{background:var(--ambl);color:#5e4300;border:1px solid #ecd9a0}
+/* Geschäftsfälle */
+.fchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.fchips button{min-width:44px;min-height:40px;border-radius:9px;border:1px solid var(--line);background:#fff;font-weight:700;padding:4px 10px}
+.fchips button.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink) inset}
+.fchips button.fertig,.fchips button.gebucht{background:var(--grl);color:var(--grd);border-color:#b9dcc5}
+.fchips button.teil{background:var(--ambl);color:var(--amb);border-color:#ecd9a0}
+.ft{font-size:.98rem}
+.fl{display:flex;justify-content:space-between;gap:16px;padding:1px 0}
+.beleg{background:#fbfbf8;border:1px dashed #c9d0c8;border-radius:10px;padding:12px 14px}
+.belegimg{max-width:100%;border-radius:8px;border:1px solid var(--line);margin-top:8px}
+/* Buchungssatz */
+.bs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.bs .col{border-radius:10px;padding:12px}
+.bs .col.S{background:var(--solll)}
+.bs .col.H{background:var(--habl)}
+.bs h3{display:flex;justify-content:space-between;margin-bottom:8px}
+.bs .col.S h3{color:var(--soll)}
+.bs .col.H h3{color:var(--hab)}
+.zeile{display:grid;grid-template-columns:minmax(0,1fr) 130px 36px;gap:6px;margin-bottom:8px}
+.kbtn{border:1px solid var(--line);background:#fff;border-radius:9px;min-height:44px;padding:6px 10px;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kbtn .ph{color:var(--mut)}
+.zeile input{border:1px solid var(--line);border-radius:9px;min-height:44px;padding:6px 10px;text-align:right;width:100%;font-variant-numeric:tabular-nums}
+.zeile .x{border:0;background:transparent;font-size:1.3rem;color:var(--mut);border-radius:8px}
+.zeile .hint{grid-column:1/-1;font-size:.8rem;color:var(--mut);margin-top:-2px}
+.addrow{border:1px dashed currentColor;background:transparent;border-radius:9px;min-height:38px;padding:4px 12px;font-size:.85rem;font-weight:600;opacity:.8}
+.waage{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;padding:10px 14px;border-radius:10px;background:#f6f7f4;border:1px solid var(--line);font-size:.92rem}
+.waage b{font-variant-numeric:tabular-nums}
+.waage .st{margin-left:auto;font-weight:700}
+.waage.ok{background:var(--grl);border-color:#b9dcc5}
+.waage.ok .st{color:var(--grd)}
+.waage.no .st{color:var(--warn)}
+/* Tabellen */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);white-space:nowrap}
+td.num,th.num{text-align:right}
+tr.first td{border-top:1.5px solid #b9c1ba}
+tr.st td{text-decoration:line-through;color:var(--mut)}
+.cS{color:var(--soll);font-weight:600}
+.cH{color:var(--hab);font-weight:600}
+/* T-Konten */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.tk{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;break-inside:avoid}
+.tk .hd{display:grid;grid-template-columns:22px 1fr 22px;align-items:center;padding:7px 10px;border-bottom:2.5px solid var(--ink);font-weight:700;font-size:.9rem;text-align:center}
+.tk .hd .s{color:var(--soll);text-align:left}
+.tk .hd .h{color:var(--hab);text-align:right}
+.tk .ty{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;display:block;color:var(--mut)}
+.tk.A{border-top:4px solid var(--soll)}.tk.P{border-top:4px solid var(--hab)}.tk.W{border-top:4px solid #7a5aa8}.tk.E{border-top:4px solid var(--gr)}.tk.X{border-top:4px solid #555}
+.tk .body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.tk .side{padding:5px 8px 6px;min-height:58px;font-size:.8rem;min-width:0}
+.tk .side.S{border-right:2.5px solid var(--ink)}
+.tk .side .rg{font-size:.68rem;color:var(--mut);font-style:italic;margin-bottom:3px}
+.tk .ln{display:flex;justify-content:space-between;gap:6px}
+.tk .ln span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mut)}
+.tk .ln.sb span:first-child{color:var(--ink);font-weight:600}
+.tk .sum{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);font-size:.8rem;font-weight:700}
+.tk .sum div{padding:4px 8px;text-align:right;border-top:1px solid var(--ink);font-variant-numeric:tabular-nums}
+.tk .sum div:first-child{border-right:2.5px solid var(--ink)}
+.tk.zu .sum div{border-bottom:3px double var(--ink)}
+.tk .side.ziel{background:repeating-linear-gradient(135deg,#fffbe8,#fffbe8 8px,#fff4c4 8px,#fff4c4 16px);cursor:pointer}
+.tray{position:sticky;top:64px;z-index:10;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.tray .cs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;max-height:132px;overflow:auto}
+.pc{border:1px solid var(--line);border-radius:8px;background:#fff;padding:5px 9px;font-size:.82rem;min-height:38px}
+.pc.S{border-left:5px solid var(--soll)}.pc.H{border-left:5px solid var(--hab)}
+.pc.on{background:var(--ink);color:#fff}
+/* Bilanz */
+.bil{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.bil .bh{display:grid;grid-template-columns:1fr auto 1fr;padding:9px 12px;border-bottom:2.5px solid var(--ink);font-weight:700;align-items:center}
+.bil .bh span:last-child{text-align:right}
+.bil .bb{display:grid;grid-template-columns:1fr 1fr}
+.bil .bs2{padding:8px 12px}
+.bil .bs2:first-child{border-right:2.5px solid var(--ink)}
+.bg{font-weight:700;font-size:.82rem;margin:8px 0 2px;color:var(--grd)}
+.bz{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;padding:1px 0}
+.bz.vor{color:var(--amb);font-style:italic}
+.bil .bf{display:grid;grid-template-columns:1fr 1fr;font-weight:700}
+.bil .bf div{padding:8px 12px;display:flex;justify-content:space-between;border-top:1px solid var(--ink)}
+.bil .bf div:first-child{border-right:2.5px solid var(--ink)}
+.bil.eq .bf div{border-bottom:3px double var(--ink)}
+.pos{color:var(--grd)}.neg{color:var(--warn)}
+/* Kennzahlen */
+.kzb{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin-bottom:16px}
+.kzb button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:12px;text-align:left;font-weight:600;min-height:54px}
+.kzb button.on{background:var(--gr);color:#fff;border-color:var(--gr)}
+.formel{font-family:Georgia,"Times New Roman",serif;font-size:1.1rem;background:#f6f7f4;border-radius:10px;padding:12px 14px;margin:8px 0 14px}
+.erg{font-size:1.5rem;font-weight:700;color:var(--grd)}
+/* Abschluss */
+.ag{font-weight:700;margin:16px 0 6px;display:flex;gap:8px;align-items:center}
+.ag .n{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:.75rem}
+.arow{display:grid;grid-template-columns:minmax(150px,1.4fr) 1fr 1fr 130px minmax(150px,1fr) auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.arow input,.arow select{border:1px solid var(--line);border-radius:8px;min-height:40px;padding:4px 8px;width:100%;background:#fff}
+.arow input{text-align:right}
+.arow.zu{color:var(--mut)}
+/* Modal */
+.ov{position:fixed;inset:0;background:rgba(20,30,26,.5);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:4vh 12px;overflow:auto}
+.dlg{background:#fff;border-radius:14px;width:min(680px,100%);padding:18px 20px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.dlg .dh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.dlg .dh h2{margin:0}
+.klist{max-height:56vh;overflow:auto;border:1px solid var(--line);border-radius:10px;margin-top:10px}
+.klist .kh{position:sticky;top:0;background:#f1f2ee;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:6px 10px;color:var(--mut)}
+.klist button{display:flex;gap:10px;align-items:baseline;width:100%;border:0;border-bottom:1px solid var(--line);background:#fff;padding:9px 10px;text-align:left;min-height:44px}
+.klist button:hover{background:var(--grl)}
+.klist button.sub{padding-left:28px;font-size:.92rem}
+.klist .ty{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--mut);white-space:nowrap}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rule{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.rule b{display:block;margin-bottom:3px}
+.rule .tt{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink);margin-top:6px;font-size:.8rem}
+.rule .tt div{padding:4px 6px}.rule .tt div:first-child{border-right:2px solid var(--ink)}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:10px;z-index:80;max-width:92vw;display:none;font-size:.93rem;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+#toast.err{background:#8c1d18}
+.edf{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;background:#fbfbf8}
+.edf .r{display:grid;grid-template-columns:90px 1fr;gap:10px}
+#druck{display:none}
+@media (max-width:900px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .top{padding:8px 12px;gap:8px}
+ .topbtn button{min-height:38px;padding:5px 10px;font-size:.82rem}
+ .fl span:first-child{min-width:0}
+ .steps{flex-direction:row;overflow-x:auto;padding:8px;gap:4px;position:sticky;top:0;z-index:15}
+ .steps .lbl{display:none}
+ .steps button{width:auto;white-space:nowrap;padding:8px 12px}
+ .top{position:static}
+ .tray{top:60px}
+ .bs{grid-template-columns:1fr}
+ .arow{grid-template-columns:1fr 1fr;}
+ .arow>:first-child{grid-column:1/-1;font-weight:600}
+ .rules{grid-template-columns:1fr}
+ .bil .bb,.bil .bf{grid-template-columns:1fr}
+ .bil .bs2:first-child,.bil .bf div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+ .wm{font-size:.9rem;letter-spacing:.14em}
+}
+@media print{
+ @page{margin:14mm}
+ body{background:#fff;font-size:10.5pt}
+ #app,#modal,#toast{display:none!important}
+ #druck{display:block}
+ #druck h1{font-size:16pt}#druck h2{font-size:12.5pt;margin-top:16pt;border-bottom:1px solid #999;padding-bottom:3pt}
+ .tgrid{grid-template-columns:1fr 1fr;gap:8pt}
+ .tk,.bil,.card{border-color:#999}
+ .tw{overflow:visible}
+ table{font-size:8.5pt}th,td{padding:2.5pt 4pt}th{white-space:normal;letter-spacing:0}
+ tr{break-inside:avoid}
+ .card{padding:8pt;margin-bottom:8pt}
+ .dk{display:flex;justify-content:space-between;gap:20pt;border-bottom:2px solid #000;padding-bottom:6pt;margin-bottom:8pt}
+ .bil .bb,.bil .bf{grid-template-columns:1fr 1fr!important}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div id="app"></div><div id="modal"></div><div id="toast" role="status"></div><div id="druck"></div>
+<input type="file" id="datei" hidden accept=".json,application/json,image/*">
+<script>
+'use strict';
+/* ============================================================
+   KONTENPLAN (Industrie-Kontenrahmen, gekürzte Fassung)
+   Zeilenformat: "Nummer Name" – ">" kennzeichnet ein Unterkonto
+   ============================================================ */
+const KP_RAW=`0000 Ausstehende Einlagen
+0200 Konzessionen, Schutzrechte und Lizenzen
+0300 Geschäfts- oder Firmenwert
+0500 Unbebaute Grundstücke
+0510 Bebaute Grundstücke
+0530 Betriebsgebäude
+0540 Verwaltungsgebäude
+0550 Andere Bauten
+0560 Grundstückseinrichtungen
+0570 Gebäudeeinrichtungen
+0590 Wohngebäude
+0700 Anlagen und Maschinen der Energieversorgung
+0710 Anlagen der Materiallagerung und -bereitstellung
+0720 Anlagen und Maschinen der Materialbearbeitung
+0730 Anlagen für Wärme-, Kälte- und chemische Prozesse
+0740 Anlagen für Arbeitssicherheit und Umweltschutz
+0750 Transportanlagen und ähnliche Betriebsvorrichtungen
+0760 Verpackungsanlagen und -maschinen
+0770 Sonstige Anlagen und Maschinen
+0780 Reservemaschinen und -anlageteile
+0790 Geringwertige Anlagen und Maschinen
+0800 Andere Anlagen
+0810 Werkstätteneinrichtung
+0820 Werkzeuge, Werksgeräte, Prüf- und Messmittel
+0830 Lager- und Transporteinrichtungen
+0840 Fuhrpark
+0850 Sonstige Betriebsausstattung
+0860 Büromaschinen, Organisationsmittel, Kommunikationsanlagen
+0863 EDV-Hardware
+0870 Büromöbel und sonstige Geschäftsausstattung
+0880 Reserveteile für Betriebs- und Geschäftsausstattung
+0895 Sammelposten GWG
+0900 Geleistete Anzahlungen auf Sachanlagen
+0950 Anlagen im Bau
+1300 Beteiligungen
+1500 Wertpapiere des Anlagevermögens
+1600 Sonstige Finanzanlagen
+2000 Rohstoffe/Fertigungsmaterial
+>2001 Bezugskosten (Rohstoffe)
+>2002 Nachlässe (Rohstoffe)
+2010 Vorprodukte/Fremdbauteile
+>2011 Bezugskosten (Vorprodukte)
+>2012 Nachlässe (Vorprodukte)
+2020 Hilfsstoffe
+>2021 Bezugskosten (Hilfsstoffe)
+>2022 Nachlässe (Hilfsstoffe)
+2030 Betriebsstoffe
+>2031 Bezugskosten (Betriebsstoffe)
+>2032 Nachlässe (Betriebsstoffe)
+2070 Sonstiges Material
+>2071 Bezugskosten (Sonstiges Material)
+>2072 Nachlässe (Sonstiges Material)
+2100 Unfertige Erzeugnisse
+2190 Unfertige Leistungen
+2200 Fertige Erzeugnisse
+2280 Waren (Handelswaren)
+>2281 Bezugskosten (Waren)
+>2282 Nachlässe (Waren)
+2300 Geleistete Anzahlungen auf Vorräte
+2400 Forderungen a. LL.
+2450 Wechselforderungen (Besitzwechsel)
+2470 Zweifelhafte Forderungen
+2490 Wertberichtigungen zu Forderungen
+>2491 Einzelwertberichtigungen
+>2492 Pauschalwertberichtigungen
+2600 Vorsteuer
+>2627 Vorsteuer aus ig-Erwerb
+2630 Sonstige Forderungen an Finanzbehörden
+2640 SV-Beitragsvorauszahlung
+2650 Forderungen an Mitarbeiter
+2690 Übrige sonstige Forderungen
+2700 Wertpapiere des Umlaufvermögens
+2800 Bank
+2860 Schecks
+2880 Kasse
+2900 Aktive Jahresabgrenzung
+3000 Eigenkapital
+>3001 Privatkonto A
+3010 Kapital Gesellschafter B
+>3011 Privatkonto B
+3070 Kommanditkapital Gesellschafter C
+3080 Kommanditkapital Gesellschafter D
+3100 Kapitalrücklage
+3210 Gesetzliche Rücklagen
+3230 Satzungsmäßige Rücklagen
+3240 Andere Gewinnrücklagen
+3300 Ergebnisverwendung
+3400 Jahresüberschuss/Jahresfehlbetrag
+3500 Sonderposten mit Rücklageanteil
+3650 Wertberichtigungen zu Finanzanlagen
+3670 Einzelwertberichtigung zu Forderungen
+3680 Pauschalwertberichtigung zu Forderungen
+3700 Rückstellungen für Pensionen
+3800 Steuerrückstellungen
+3900 Sonstige Rückstellungen
+4100 Anleihen
+4200 Kurzfristige Bankverbindlichkeiten
+4250 Langfristige Bankverbindlichkeiten
+4300 Erhaltene Anzahlungen auf Bestellungen
+4400 Verbindlichkeiten a. LL.
+4500 Wechselverbindlichkeiten
+4800 Umsatzsteuer
+>4829 Erwerbsteuer
+4830 Sonstige Verbindlichkeiten gegenüber Finanzbehörden
+4840 Verbindlichkeiten gegenüber Sozialversicherungsträgern
+4850 Verbindlichkeiten gegenüber Mitarbeitern
+4860 Verbindlichkeiten aus vermögenswirksamen Leistungen
+4870 Verbindlichkeiten gegenüber Gesellschaftern
+4890 Übrige sonstige Verbindlichkeiten
+4900 Passive Jahresabgrenzung
+5000 Umsatzerlöse für eigene Erzeugnisse
+>5001 Erlösberichtigungen (Erzeugnisse)
+5050 Umsatzerlöse für andere eigene Leistungen
+>5051 Erlösberichtigungen (Leistungen)
+5100 Umsatzerlöse für Waren
+>5101 Erlösberichtigungen (Waren)
+5190 Sonstige Umsatzerlöse
+>5191 Erlösberichtigungen (Sonstige)
+5200 Bestandsveränderungen
+>5201 Bestandsveränderungen an unfertigen Erzeugnissen
+>5202 Bestandsveränderungen an fertigen Erzeugnissen
+5300 Andere aktivierte Eigenleistungen
+5400 Nebenerlöse
+>5401 Nebenerlöse aus Vermietung und Verpachtung
+>5403 Nebenerlöse aus Werksküche und Kantine
+>5409 Sonstige Nebenerlöse
+5410 Sonstige Erlöse
+5420 Eigenverbrauch/Entnahmen
+5430 Andere sonstige betriebliche Erträge
+5440 Erträge aus Zuschreibungen
+5450 Erträge aus der Auflösung von Wertberichtigungen auf Forderungen
+5460 Erträge aus dem Abgang von Vermögensgegenständen
+5470 Erträge aus der Auflösung von Sonderposten
+5480 Erträge aus der Herabsetzung von Rückstellungen
+5490 Periodenfremde Erträge
+5500 Erträge aus Beteiligungen
+5600 Erträge aus anderen Finanzanlagen
+5710 Zinserträge
+5730 Diskonterträge
+5780 Erträge aus Wertpapieren des Umlaufvermögens
+5790 Sonstige zinsähnliche Erträge
+5800 Außerordentliche Erträge
+6000 Aufwendungen für Rohstoffe
+>6001 Bezugskosten (Aufw. Rohstoffe)
+>6002 Nachlässe (Aufw. Rohstoffe)
+6010 Aufwendungen für Vorprodukte/Fremdbauteile
+>6011 Bezugskosten (Aufw. Vorprodukte)
+>6012 Nachlässe (Aufw. Vorprodukte)
+6020 Aufwendungen für Hilfsstoffe
+>6021 Bezugskosten (Aufw. Hilfsstoffe)
+>6022 Nachlässe (Aufw. Hilfsstoffe)
+6030 Aufwendungen für Betriebsstoffe
+6040 Aufwendungen für Verpackungsmaterial
+>6041 Bezugskosten (Aufw. Verpackung)
+>6042 Nachlässe (Aufw. Verpackung)
+6050 Aufwendungen für Energie
+6060 Aufwendungen für Reparaturmaterial
+6070 Aufwendungen für sonstiges Material
+6080 Aufwendungen für Waren
+6100 Fremdleistungen für Erzeugnisse
+6130 Weitere Fremdleistungen
+6140 Frachten und Fremdlager
+6150 Vertriebsprovisionen
+6160 Fremdinstandhaltung
+6170 Sonstige Aufwendungen für bezogene Leistungen
+6200 Löhne
+6210 Löhne für andere Zeiten
+6220 Sonstige tarifliche Aufwendungen für Lohnempfänger
+6230 Freiwillige Zuwendungen (Löhne)
+6250 Sachbezüge (Löhne)
+6260 Vergütungen an gewerbliche Auszubildende
+6300 Gehälter
+6310 Urlaubs- und Weihnachtsgeld
+6320 Sonstige tarifliche Aufwendungen (Gehälter)
+6330 Freiwillige Zuwendungen (Gehälter)
+6350 Sachbezüge (Gehälter)
+6360 Vergütung an kaufmännische/technische Auszubildende
+6400 Arbeitgeberanteil zur Sozialversicherung (Lohnbereich)
+6410 Arbeitgeberanteil zur Sozialversicherung (Gehaltsbereich)
+6420 Beiträge zur Berufsgenossenschaft
+6440 Aufwendungen für Altersversorgung
+6490 Aufwendungen für Unterstützung
+6510 Abschreibungen auf immaterielle Vermögensgegenstände
+6520 Abschreibungen auf Sachanlagen
+6545 Abschreibungen auf Sammelposten
+6550 Außerplanmäßige Abschreibungen auf Sachanlagen
+6570 Unüblich hohe Abschreibungen auf Umlaufvermögen
+6600 Aufwendungen für Personaleinstellung
+6610 Aufwendungen für übernommene Fahrtkosten
+6620 Aufwendungen für Werkarzt und Arbeitssicherheit
+6630 Personenbezogene Versicherungen
+6640 Aufwendungen für Fort- und Weiterbildung
+6650 Aufwendungen für Dienstjubiläen
+6660 Aufwendungen für Belegschaftsveranstaltungen
+6670 Aufwendungen für Werksküche und Sozialeinrichtungen
+6680 Ausgleichsabgabe nach dem Schwerbehindertengesetz
+6690 Übrige sonstige Personalaufwendungen
+6700 Mieten, Pachten
+6710 Leasing
+6720 Lizenzen und Konzessionen
+6730 Gebühren
+6750 Kosten des Geldverkehrs
+6760 Provisionsaufwendungen
+6770 Rechts- und Beratungskosten
+6780 Aufsichtsratstantieme
+6800 Büromaterial und Kleingüter
+6810 Zeitungen und Fachliteratur
+6820 Postentgelte/Telefon
+6850 Reisekosten
+6860 Bewirtung und Präsentation
+6870 Werbung
+6880 Spenden
+6900 Versicherungsbeiträge
+6920 Beiträge zu Wirtschaftsverbänden
+6930 Verluste aus Schadensfällen
+>6931 Verluste aus Schadensfällen (Unterkonto)
+>6935 Aufwendungen zu Eigenverbrauch
+6950 Abschreibungen auf Forderungen
+>6951 Abschreibungen auf Forderungen wegen Uneinbringlichkeit
+>6952 Einzelwertberichtigung
+>6953 Pauschalwertberichtigung
+6960 Verluste aus dem Abgang von Vermögensgegenständen
+6970 Einstellungen in den Sonderposten mit Rücklageanteil
+6980 Zuführung zu Rückstellungen für Gewährleistung
+6990 Periodenfremde Aufwendungen
+>6999 Nicht abzugsfähige Betriebsausgaben
+7020 Grundsteuer
+7030 Kraftfahrzeugsteuer
+7070 Ausfuhrzölle
+7080 Verbrauchsteuern
+7090 Sonstige betriebliche Steuern
+7400 Abschreibungen auf Finanzanlagen
+7420 Abschreibungen auf Wertpapiere des Umlaufvermögens
+7450 Verluste aus dem Abgang von Finanzanlagen
+7460 Verluste aus dem Abgang von Wertpapieren des Umlaufvermögens
+7510 Zinsaufwendungen
+7530 Diskontaufwendungen
+7590 Sonstige zinsähnliche Aufwendungen
+7600 Außerordentliche Aufwendungen
+7700 Gewerbesteuer
+7710 Körperschaftsteuer
+7720 Kapitalertragsteuer
+8000 Eröffnungsbilanzkonto (EBK)
+8010 Schlussbilanzkonto (SBK)
+8020 GuV-Konto`;
+const KLASSEN=['Klasse 0 · Immaterielle Vermögensgegenstände und Sachanlagen','Klasse 1 · Finanzanlagen','Klasse 2 · Umlaufvermögen','Klasse 3 · Eigenkapital und Rückstellungen','Klasse 4 · Verbindlichkeiten','Klasse 5 · Erträge','Klasse 6 · Betriebliche Aufwendungen','Klasse 7 · Weitere Aufwendungen','Klasse 8 · Eröffnung und Abschluss'];
+const typVon=nr=>{const c=+String(nr)[0];return c<=2?'A':c<=4?'P':c===5?'E':c<=7?'W':'X';};
+const KP={},KP_LIST=[];
+(function(){let par=null;KP_RAW.split('\n').forEach(z=>{z=z.trim();if(!z)return;const sub=z[0]==='>';if(sub)z=z.slice(1);const nr=z.slice(0,4),k={nr,name:z.slice(5),typ:typVon(nr),sub,parent:sub?par:null};if(!sub)par=nr;KP[nr]=k;KP_LIST.push(k);});})();
+const TYPNAME={A:'Aktivkonto',P:'Passivkonto',E:'Ertragskonto',W:'Aufwandskonto',X:'Abschlusskonto'};
+const REGEL={A:'Aktivkonto: Anfangsbestand und Mehrungen im Soll, Minderungen im Haben.',P:'Passivkonto: Anfangsbestand und Mehrungen im Haben, Minderungen im Soll.',W:'Aufwandskonto: Aufwendungen stehen im Soll.',E:'Ertragskonto: Erträge stehen im Haben.',X:'Abschlusskonto: nimmt die Salden der anderen Konten auf.'};
+const KURZ={'8000':'EBK','8010':'SBK','8020':'GuV'};
+const BUILTIN="==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";
+const KEY='fowbuchen.v1',EDKEY='fowbuchen.editor.v1';
+
+/* ---------- Hilfsfunktionen ---------- */
+const $=(s,r)=>(r||document).querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function parseBetrag(s){if(typeof s==='number')return Math.round(s*100);s=String(s==null?'':s).replace(/[€\s]/g,'');if(!s)return NaN;if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if(/^\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');if(!/^\d+(\.\d{1,2})?$/.test(s))return NaN;return Math.round(parseFloat(s)*100);}
+const fmt=c=>(c/100).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=x=>x==null?'–':x.toLocaleString('de-DE',{minimumFractionDigits:1,maximumFractionDigits:1})+' %';
+function enc(o){const b=new TextEncoder().encode(JSON.stringify(o));let s='';for(let i=0;i<b.length;i+=8192)s+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(s).split('').reverse().join('');}
+function dec(t){const s=atob(t.split('').reverse().join(''));const b=new Uint8Array(s.length);for(let i=0;i<s.length;i++)b[i]=s.charCodeAt(i);return JSON.parse(new TextDecoder().decode(b));}
+let toastT=null;
+function toast(msg,err){const t=$('#toast');t.textContent=msg;t.className=err?'err':'';t.style.display='block';clearTimeout(toastT);toastT=setTimeout(()=>t.style.display='none',err?5200:2800);}
+function download(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
+const dateiName=s=>String(s||'datei').replace(/[^\wäöüÄÖÜß-]+/g,'_').slice(0,50);
+
+/* ---------- Zustand ---------- */
+let S=null,FAELLE=[],AK=[],FB=null,PICK=null,MODAL=null,AD={},ADV={},ED=null,REPO=[],PV={};
+const leerDraft=()=>({S:[{k:'',b:''}],H:[{k:'',b:''}]});
+function neuerStand(A,alt){return {v:1,aufgabe:A,name:alt?alt.name:'',klasse:alt?alt.klasse:'',modus:alt?alt.modus:'uebung',hilfen:alt?alt.hilfen:true,auto:alt?alt.auto:false,view:'start',fall:null,fallA:null,buch:[],draft:leerDraft(),versuche:{},geloest:{},ausgewertet:false,kz:null,kzOffen:{},hbf:'alle',pick:null,vgl:false,seq:0};}
+function konto(nr){const b=KP[nr],n=S&&S.aufgabe&&S.aufgabe.kontonamen&&S.aufgabe.kontonamen[nr];if(b)return n?Object.assign({},b,{name:n}):b;return {nr,name:n||('Konto '+nr),typ:typVon(nr),sub:false,parent:null};}
+const kname=nr=>nr+' '+konto(nr).name;
+const kkurz=nr=>nr+' '+(KURZ[nr]||konto(nr).name);
+function alleFaelle(){const A=S.aufgabe,r=[];
+ if(A.einst.eroeffnung==='manuell')r.push({id:'E',nr:'EB',grp:'eb',text:'Eröffnungsbuchungen: Eröffne alle Bestandskonten über das Eröffnungsbilanzkonto (8000).\nAktivkonten: Konto an 8000 · Passivkonten: 8000 an Konto',teile:A.ab.map(x=>typVon(x.k)==='A'?{s:[{k:x.k,b:x.b}],h:[{k:'8000',b:x.b}]}:{s:[{k:'8000',b:x.b}],h:[{k:x.k,b:x.b}]})});
+ A.faelle.forEach((f,i)=>r.push(Object.assign({id:'F'+i,grp:'lauf'},f)));
+ (A.abschluss||[]).forEach((f,i)=>r.push(Object.assign({id:'A'+i,grp:'vab'},f)));return r;}
+function vorbereiten(){const A=S.aufgabe;FAELLE=alleFaelle();const set=new Set();A.ab.forEach(x=>set.add(x.k));FAELLE.forEach(f=>f.teile.forEach(t=>t.s.concat(t.h).forEach(x=>set.add(x.k))));(A.zusatz||[]).forEach(k=>set.add(k));AK=[...set].sort();AD={};ADV={};PV={};}
+function eroeffnen(){if(S.aufgabe.einst.eroeffnung==='manuell')return;S.aufgabe.ab.forEach(x=>{const a=typVon(x.k)==='A';S.buch.push({id:++S.seq,nr:0,fall:'EB',typ:'eb',z:[{s:a?'S':'H',k:x.k,b:x.b,p:true},{s:a?'H':'S',k:'8000',b:x.b,p:true}]});});}
+function ladeAufgabe(A,alt){S=neuerStand(A,alt);vorbereiten();eroeffnen();FB=null;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({d:enc(S)}));}catch(e){if(!save.warned){save.warned=true;toast('Automatisches Zwischenspeichern nicht möglich – bitte den Stand über „Speichern / Laden“ als Datei sichern.',true);}}}
+function restore(){try{const r=JSON.parse(localStorage.getItem(KEY)||'null');if(r&&r.d){S=dec(r.d);if(S&&S.aufgabe){vorbereiten();return true;}}}catch(e){}return false;}
+function normAufgabe(A){A.einst=Object.assign({eroeffnung:'auto',guv:'3000',kontenauswahl:'aufgabe'},A.einst||{});A.ab=A.ab||[];A.faelle=A.faelle||[];A.abschluss=A.abschluss||[];A.kontonamen=A.kontonamen||{};A.zusatz=A.zusatz||[];if(!A.id)A.id='a'+Date.now();return A;}
+
+/* ---------- Rechenkern ---------- */
+function salden(o){o=o||{};const m={};S.buch.forEach(e=>{if(o.ohneAbschl&&e.typ==='abschl')return;if(o.ohneSBK&&e.z.some(z=>z.k==='8010'))return;e.z.forEach(z=>{if(!z.p)return;m[z.k]=(m[z.k]||0)+(z.s==='S'?z.b:-z.b);});});return m;}
+function ebSalden(){const m={};S.aufgabe.ab.forEach(x=>{m[x.k]=(m[x.k]||0)+(typVon(x.k)==='A'?x.b:-x.b);});return m;}
+function bilanzAus(m){const akt=[],pas=[];let rest=0;Object.keys(m).sort().forEach(k=>{const v=m[k];if(!v||k==='8000'||k==='8010')return;const t=konto(k).typ;if(t==='A')akt.push({k,v});else if(t==='P')pas.push({k,v:-v});else rest-=v;});const su=a=>a.reduce((x,y)=>x+y.v,0);return {akt,pas,rest,sa:su(akt),sp:su(pas)+rest};}
+function kat(b){const g={av:0,uv:0,vor:0,ford:0,fl:0,ek:b.rest,kfk:0,lfk:0};
+ b.akt.forEach(x=>{const p=x.k.slice(0,2);if(x.k[0]<'2')g.av+=x.v;else{g.uv+=x.v;if(p>='20'&&p<='23')g.vor+=x.v;else if(p==='27'||p==='28')g.fl+=x.v;else g.ford+=x.v;}});
+ b.pas.forEach(x=>{if(x.k<'3700')g.ek+=x.v;else if(/^(37|41)/.test(x.k)||x.k==='4250')g.lfk+=x.v;else g.kfk+=x.v;});
+ g.fk=g.kfk+g.lfk;g.gk=g.ek+g.fk;g.gv=g.av+g.uv;return g;}
+function erfolg(){const m=salden({ohneAbschl:true});let gew=0,ums=0;for(const k in m){const t=konto(k).typ;if(t==='E'||t==='W')gew-=m[k];if(/^5[01]/.test(k))ums-=m[k];}return {gew,ums};}
+const agg=lines=>{const m={};lines.forEach(l=>{const key=l.s+l.k;m[key]=(m[key]||0)+l.b;});return m;};
+const teilLines=t=>t.s.map(x=>({s:'S',k:x.k,b:x.b})).concat(t.h.map(x=>({s:'H',k:x.k,b:x.b})));
+function diff(a,t){const iss=[],ka=new Set(Object.keys(a).map(x=>x.slice(1))),kt=new Set(Object.keys(t).map(x=>x.slice(1)));
+ ka.forEach(k=>{if(!kt.has(k))iss.push({art:'fremd',k});});
+ kt.forEach(k=>{if(!ka.has(k))iss.push({art:'fehlt',k});});
+ ka.forEach(k=>{if(!kt.has(k))return;const aS=a['S'+k]||0,aH=a['H'+k]||0,tS=t['S'+k]||0,tH=t['H'+k]||0;if(aS===tS&&aH===tH)return;if((aS&&!tS)||(aH&&!tH))iss.push({art:'seite',k});else iss.push({art:'betrag',k});});
+ return iss;}
+function fallBuchungen(f){return S.buch.filter(e=>e.fall===f.id&&!e.st&&e.typ!=='storno');}
+function erledigteTeile(f){const d=new Set();fallBuchungen(f).forEach(e=>(e.teile||[]).forEach(t=>d.add(t)));return d;}
+function fallStatus(f){const es=fallBuchungen(f);if(S.modus==='uebung'){const d=erledigteTeile(f);return d.size>=f.teile.length?'fertig':d.size?'teil':'offen';}return es.length?'gebucht':'offen';}
+function pruefe(f,lines){const d=erledigteTeile(f),R=f.teile.map((t,i)=>i).filter(i=>!d.has(i)),a=agg(lines);let best=null;
+ const test=sub=>{const t=agg(sub.flatMap(i=>teilLines(f.teile[i]))),iss=diff(a,t);if(!iss.length)return true;if(!best||iss.length<best.iss.length||(iss.length===best.iss.length&&sub.length<best.sub.length))best={iss,sub};return false;};
+ if(R.length<=12){for(let mask=1;mask<(1<<R.length);mask++){const sub=R.filter((x,j)=>mask>>j&1);if(test(sub))return {ok:true,teile:sub};}}
+ else{for(const i of R)if(test([i]))return {ok:true,teile:[i]};if(test(R))return {ok:true,teile:R};}
+ return {ok:false,iss:best?best.iss:[]};}
+function hinweis(iss,n){const ord=['fremd','fehlt','seite','betrag'];const i=iss.slice().sort((x,y)=>ord.indexOf(x.art)-ord.indexOf(y.art))[0];if(!i)return 'Diese Buchung passt noch nicht.';const K=konto(i.k);
+ if(n<=1){return {fremd:'Mindestens ein Konto gehört nicht zu diesem Geschäftsfall. Überlege noch einmal: Welche Konten werden berührt?',
+  fehlt:'Es fehlt noch mindestens ein Konto.'+(/^(2600|4800)$/.test(i.k)?' Tipp: Achte auf die Umsatzsteuer.':' Was verändert sich durch den Geschäftsfall außerdem?'),
+  seite:'Die Konten passen, aber mindestens ein Konto steht auf der falschen Seite. Frage dich: Welche Kontoart? Mehrung oder Minderung?',
+  betrag:'Konten und Seiten stimmen. Prüfe die Beträge (netto, Umsatzsteuer, Rechnungsbetrag).'}[i.art];}
+ return {fremd:'Das Konto '+kname(i.k)+' wird bei diesem Geschäftsfall nicht berührt.',
+  fehlt:i.k==='2600'?'Es fehlt die Vorsteuer: Die Umsatzsteuer aus Eingangsrechnungen wird auf dem Konto 2600 erfasst.':i.k==='4800'?'Es fehlt die Umsatzsteuer: Beim Verkauf wird sie auf dem Konto 4800 erfasst.':'Es fehlt noch ein '+TYPNAME[K.typ]+' aus der Kontenklasse '+i.k[0]+'.',
+  seite:'Das Konto '+kname(i.k)+' steht auf der falschen Seite. '+(K.sub?'':REGEL[K.typ]),
+  betrag:'Der Betrag beim Konto '+kname(i.k)+' stimmt nicht.'}[i.art];}
+function naechsteNr(){return S.buch.reduce((m,e)=>Math.max(m,e.nr||0),0)+1;}
+function unposted(){const r=[];S.buch.forEach(e=>e.z.forEach((z,i)=>{if(!z.p)r.push({e,z,i});}));return r;}
+function zielKonto(k){const K=konto(k);if(k==='8020')return S.aufgabe.einst.guv||'3000';if(K.sub&&K.parent)return K.parent;if(K.typ==='E'||K.typ==='W')return '8020';return '8010';}
+function abschlussListe(){const m=salden(),g={sub:[],erf:[],guv:[],best:[]};const beruehrt=new Set();S.buch.forEach(e=>e.z.forEach(z=>{if(z.p)beruehrt.add(z.k);}));
+ [...beruehrt].sort().forEach(k=>{if(k==='8000'||k==='8010')return;const K=konto(k),it={k,saldo:m[k]||0,ziel:zielKonto(k)};if(k==='8020')g.guv.push(it);else if(K.sub)g.sub.push(it);else if(K.typ==='E'||K.typ==='W')g.erf.push(it);else g.best.push(it);});return g;}
+const offen=a=>a.some(x=>x.saldo!==0);
+function abschlussFertig(){const g=abschlussListe();return S.buch.some(e=>e.typ==='abschl')&&!offen(g.sub)&&!offen(g.erf)&&!offen(g.guv)&&!offen(g.best);}
+function gruppeFertig(g){return FAELLE.filter(f=>g==='vab'?f.grp==='vab':f.grp!=='vab').every(f=>{const s=fallStatus(f);return s==='fertig'||s==='gebucht';});}
+function schliesse(k,ziel){const s=salden()[k]||0;if(!s)return;const b=Math.abs(s);S.buch.push({id:++S.seq,nr:naechsteNr(),fall:'Z',typ:'abschl',z:s>0?[{s:'S',k:ziel,b,p:true},{s:'H',k,b,p:true}]:[{s:'S',k,b,p:true},{s:'H',k:ziel,b,p:true}]});}
+function auswertung(){return FAELLE.map(f=>{const a=agg(fallBuchungen(f).flatMap(e=>e.z)),t=agg(f.teile.flatMap(teilLines));const ok=Object.keys(Object.assign({},a,t)).every(k=>(a[k]||0)===(t[k]||0));return {f,ok,leer:!Object.keys(a).length};});}
+function sollWerte(){const m=ebSalden();FAELLE.forEach(f=>{if(f.grp==='eb')return;f.teile.flatMap(teilLines).forEach(l=>{m[l.k]=(m[l.k]||0)+(l.s==='S'?l.b:-l.b);});});const b=bilanzAus(m);return {gew:b.rest,summe:b.sa};}
+
+/* ---------- Bausteine ---------- */
+function fallText(t){return '<div class="ft">'+String(t||'').split('\n').map(l=>{const p=l.split('|');return p.length>1?'<div class="fl"><span>'+esc(p[0].trim())+'</span><span class="num">'+esc(p.slice(1).join('|').trim())+'</span></div>':'<div class="fl"><span>'+esc(l)+'</span></div>';}).join('')+'</div>';}
+function lsgText(teile,namen){return teile.map(t=>t.s.map(x=>(namen?kname(x.k):x.k)+' '+fmt(x.b)).join(' + ')+' an '+t.h.map(x=>(namen?kname(x.k):x.k)+' '+fmt(x.b)).join(' + ')).join('\n');}
+function bilanzHtml(b,titel){
+ const z=x=>'<div class="bz'+(x.vor?' vor':'')+'"><span>'+(x.k?esc(kname(x.k)):esc(x.n))+'</span><span class="num">'+fmt(x.v)+'</span></div>';
+ const sec=(t,a)=>a.length?'<div class="bg">'+t+'</div>'+a.map(z).join(''):'';
+ const ek=b.pas.filter(x=>x.k<'3700');if(b.rest)ek.push({n:b.rest>0?'Vorläufiger Gewinn (Erfolgskonten noch nicht abgeschlossen)':'Vorläufiger Verlust (Erfolgskonten noch nicht abgeschlossen)',v:b.rest,vor:true});
+ return '<div class="bil'+(b.sa===b.sp&&b.sa?' eq':'')+'"><div class="bh"><span>Aktiva</span><span>'+esc(titel)+'</span><span>Passiva</span></div><div class="bb"><div class="bs2">'+sec('A. Anlagevermögen',b.akt.filter(x=>x.k[0]<'2'))+sec('B. Umlaufvermögen',b.akt.filter(x=>x.k[0]==='2'))+'</div><div class="bs2">'+sec('A. Eigenkapital',ek)+sec('B. Fremdkapital',b.pas.filter(x=>x.k>='3700'))+'</div></div><div class="bf"><div><span>Bilanzsumme</span><span class="num">'+fmt(b.sa)+'</span></div><div><span>Bilanzsumme</span><span class="num">'+fmt(b.sp)+'</span></div></div></div>';}
+function fallLabel(e){if(e.typ==='storno')return 'Storno';if(e.fall==='Z')return 'Abschluss';const f=FAELLE.find(x=>x.id===e.fall);return f?(f.grp==='vab'?'Abschl. '+f.nr:f.nr):'';}
+function gbTabelle(druck){const es=S.buch.filter(e=>e.nr);if(!es.length)return '<p class="muted">Noch keine Buchungen im Grundbuch.</p>';const storno=!druck&&S.modus==='pruefung'&&!S.ausgewertet;
+ let h='<div class="tw"><table><thead><tr><th>Nr.</th><th>Fall</th><th>Soll-Konto</th><th>Haben-Konto</th><th class="num">Betrag Soll €</th><th class="num">Betrag Haben €</th>'+(storno?'<th></th>':'')+'</tr></thead><tbody>';
+ es.forEach(e=>{const so=e.z.filter(z=>z.s==='S'),ha=e.z.filter(z=>z.s==='H');let first=true;const row=(z,side)=>{h+='<tr class="'+(first?'first ':'')+(e.st?'st':'')+'"><td>'+(first?e.nr:'')+'</td><td>'+(first?esc(fallLabel(e)):'')+'</td><td class="cS">'+(side==='S'?esc(kname(z.k)):'')+'</td><td class="cH">'+(side==='H'?'an '+esc(kname(z.k)):'')+'</td><td class="num">'+(side==='S'?fmt(z.b):'')+'</td><td class="num">'+(side==='H'?fmt(z.b):'')+'</td>'+(storno?'<td>'+(first&&!e.st&&e.typ!=='storno'&&e.typ!=='abschl'?'<button class="btn sm warn" data-a="storno" data-id="'+e.id+'">Stornieren</button>':'')+'</td>':'')+'</tr>';first=false;};so.forEach(z=>row(z,'S'));ha.forEach(z=>row(z,'H'));});
+ return h+'</tbody></table></div>';}
+function tkonto(k){const K=konto(k);let L='',R='',sl=0,sr=0,zu=false;
+ S.buch.forEach(e=>{e.z.forEach(z=>{if(z.k!==k||!z.p)return;const g=e.z.filter(y=>y.s!==z.s);let lab=e.typ==='eb'?'AB':g.length===1?kkurz(g[0].k):'diverse';if(e.typ==='abschl'){zu=true;}const ln='<div class="ln'+(e.typ==='abschl'?' sb':'')+'"><span title="'+esc(lab)+'">'+(e.nr?e.nr+') ':'')+esc(lab)+'</span><span class="num">'+fmt(z.b)+'</span></div>';if(z.s==='S'){L+=ln;sl+=z.b;}else{R+=ln;sr+=z.b;}});});
+ const zl=S.pick?' ziel':'';const rg=S.hilfen&&S.modus==='uebung'?{A:['AB · Mehrungen','Minderungen · SB'],P:['Minderungen · SB','AB · Mehrungen'],W:['Aufwendungen','Saldo → GuV'],E:['Saldo → GuV','Erträge'],X:['','']}[K.sub?'X':K.typ]:['',''];
+ return '<div class="tk '+K.typ+(zu&&sl===sr?' zu':'')+'"><div class="hd"><span class="s">S</span><span>'+esc(kname(k))+'<span class="ty">'+(K.sub?'Unterkonto':TYPNAME[K.typ])+'</span></span><span class="h">H</span></div><div class="body"><div class="side S'+zl+'" data-a="post" data-k="'+k+'" data-s="S">'+(rg[0]?'<div class="rg">'+rg[0]+'</div>':'')+L+'</div><div class="side H'+zl+'" data-a="post" data-k="'+k+'" data-s="H">'+(rg[1]?'<div class="rg">'+rg[1]+'</div>':'')+R+'</div></div><div class="sum"><div>'+fmt(sl)+'</div><div>'+fmt(sr)+'</div></div></div>';}
+function hbKonten(){const set=new Set(AK);S.buch.forEach(e=>e.z.forEach(z=>set.add(z.k)));if(S.aufgabe.einst.eroeffnung!=='manuell')set.delete('8000');return [...set].sort();}
+
+/* ---------- Ansichten ---------- */
+const VIEWS=[['start','Aufgabe'],['eb','Eröffnungsbilanz'],['gb','Grundbuch'],['hb','Hauptbuch'],['ab','Abschluss'],['sb','Schlussbilanz'],['kz','Kennzahlen']];
+function viewDone(v){if(v==='gb')return gruppeFertig('lauf');if(v==='hb')return gruppeFertig('lauf')&&!unposted().length&&S.buch.some(e=>e.nr);if(v==='ab'||v==='sb')return abschlussFertig();return false;}
+function shell(){const ed=S.view==='editor';
+ return '<header class="top"><div class="brand"><span class="mark" aria-hidden="true"></span><div><div class="wm">BÜRODESIGN GMBH</div><div class="tag">Finanzbuchhaltung · Lerngebiet 11.3</div></div></div><div class="topinfo">'+(ed?'Lehrkraft: Aufgabe erstellen':esc(S.aufgabe.titel)+'<span class="chip '+S.modus+'">'+(S.modus==='uebung'?'Übungsmodus':'Prüfungsmodus')+'</span>')+'</div><div class="topbtn"><button data-a="hilfe">Buchungsregeln</button><button data-a="aufgaben">Aufgaben</button><button data-a="dateien">Speichern / Laden</button><button data-a="pdf">Drucken / PDF</button></div></header>'+
+ '<div class="layout"><nav class="steps" aria-label="Arbeitsschritte"><div class="lbl">Buchungskreislauf</div>'+VIEWS.map((v,i)=>'<button class="'+(S.view===v[0]?'on ':'')+(viewDone(v[0])?'done':'')+'" data-a="nav" data-v="'+v[0]+'"><span class="n">'+(viewDone(v[0])?'✓':i+1)+'</span>'+v[1]+'</button>').join('')+'</nav><main>'+({start:vStart,eb:vEB,gb:vGB,hb:vHB,ab:vAB,sb:vSB,kz:vKZ,editor:vEditor}[S.view]||vStart)()+(ed?'':fuss())+'</main></div>';}
+function fuss(){const i=VIEWS.findIndex(v=>v[0]===S.view);return '<div class="foot">'+(i>0?'<button class="btn" data-a="nav" data-v="'+VIEWS[i-1][0]+'">← '+VIEWS[i-1][1]+'</button>':'<span></span>')+(i<VIEWS.length-1?'<button class="btn pri" data-a="nav" data-v="'+VIEWS[i+1][0]+'">Weiter: '+VIEWS[i+1][1]+' →</button>':'')+'</div>';}
+function seg(act,val,opts){return '<div class="seg">'+opts.map(o=>'<button class="'+(String(val)===String(o[0])?'on':'')+'" data-a="'+act+'" data-v="'+o[0]+'">'+o[1]+'</button>').join('')+'</div>';}
+function vStart(){const A=S.aufgabe;
+ return '<section class="hero"><div class="eyebrow">Dein Praktikumsbetrieb</div><h1>Bürodesign GmbH</h1><p>Industriebetrieb für ökologisch orientierte Büromöbel · Dieselstr. 10, 26607 Aurich. Du arbeitest in der Abteilung Rechnungswesen und führst die Finanzbuchhaltung von der Eröffnungsbilanz bis zur Schlussbilanz.</p></section>'+
+ '<div class="grid2"><div class="card"><div class="eyebrow">Aufgabe</div><h2>'+esc(A.titel)+'</h2>'+(A.quelle?'<p class="muted small">'+esc(A.quelle)+'</p>':'')+(A.hinweis?'<p>'+esc(A.hinweis)+'</p>':'')+'<p class="small muted">'+A.ab.length+' Anfangsbestände · '+A.faelle.length+' Geschäftsfälle'+(A.abschluss.length?' · '+A.abschluss.length+' vorbereitende Abschlussbuchungen':'')+'</p>'+
+ '<details><summary><b>Alle Geschäftsfälle anzeigen</b></summary><div style="margin-top:10px">'+A.faelle.map(f=>'<div class="beleg" style="margin-bottom:8px"><b>'+esc(f.nr)+'.</b>'+fallText(f.text)+'</div>').join('')+(A.angaben?'<div class="beleg"><b>Abschlussangaben</b>'+fallText(A.angaben)+'</div>':'')+'</div></details>'+(A.bild?'<details style="margin-top:8px"><summary><b>Vorlage als Bild</b></summary><img class="belegimg" alt="Aufgabenvorlage" src="'+A.bild+'"></details>':'')+'</div>'+
+ '<div class="card"><div class="eyebrow">Deine Angaben</div><label class="f">Name<input data-i="name" value="'+esc(S.name)+'" autocomplete="name"></label><label class="f">Klasse<input data-i="klasse" value="'+esc(S.klasse)+'"></label>'+
+ '<div class="opt"><div class="t">Arbeitsweise</div>'+seg('setmodus',S.modus,[['uebung','Üben (mit Rückmeldung)'],['pruefung','Prüfen (Auswertung am Ende)']])+'<div class="d">'+(S.modus==='uebung'?'Jede Buchung wird sofort geprüft. Bei Fehlern bekommst du gestufte Hinweise.':'Buchungen werden ohne Rückmeldung angenommen. Fehler korrigierst du per Storno; ausgewertet wird am Ende.')+'</div></div>'+
+ (S.modus==='uebung'?'<div class="opt"><div class="t">Denkhilfen (Kontoart und Buchungsregel einblenden)</div>'+seg('sethilfen',S.hilfen?1:0,[[1,'An'],[0,'Aus']])+'</div>':'')+
+ '<div class="opt"><div class="t">Übertrag ins Hauptbuch</div>'+seg('setauto',S.auto?1:0,[[0,'Von Hand übertragen'],[1,'Automatisch (ERP)']])+'<div class="d">'+(S.auto?'Wie in einer ERP-Software: Jede Grundbuchung erscheint sofort auf den Konten.':'Du überträgst jede Buchung selbst auf die T-Konten – so wird der Weg vom Grundbuch ins Hauptbuch sichtbar.')+'</div></div></div></div>';}
+function vEB(){return '<div class="pagehead"><div><div class="eyebrow">Schritt 2</div><h1>Eröffnungsbilanz</h1><p>Die Eröffnungsbilanz zeigt Vermögen (Aktiva) und Kapital (Passiva) zu Beginn. Aus ihr werden die Bestandskonten im Hauptbuch eröffnet.</p></div></div>'+bilanzHtml(bilanzAus(ebSalden()),'Eröffnungsbilanz')+
+ '<div class="info" style="margin-top:16px">'+(S.aufgabe.einst.eroeffnung==='manuell'?'<b>Eröffnung:</b> In dieser Aufgabe eröffnest du die Konten selbst. Buche dazu im Grundbuch den Fall „EB“ über das Eröffnungsbilanzkonto (8000).':'<b>Eröffnung:</b> Die Anfangsbestände (AB) sind bereits auf den Konten im Hauptbuch vorgetragen – Aktivkonten im Soll, Passivkonten im Haben.')+'</div>';}
+function waageHtml(){let s=0,h=0;S.draft.S.forEach(r=>{const b=parseBetrag(r.b);if(!isNaN(b))s+=b;});S.draft.H.forEach(r=>{const b=parseBetrag(r.b);if(!isNaN(b))h+=b;});const ok=s===h&&s>0;return '<div class="waage '+(ok?'ok':(s||h?'no':''))+'" id="waage"><span>Summe Soll <b>'+fmt(s)+' €</b></span><span>Summe Haben <b>'+fmt(h)+' €</b></span><span class="st">'+(ok?'✓ Soll = Haben':(s||h?'Differenz: '+fmt(Math.abs(s-h))+' €':'Soll an Haben'))+'</span></div>';}
+function zeilen(side,g){const rows=S.draft[side];return rows.map((r,i)=>{const K=r.k?konto(r.k):null;return '<div class="zeile"><button class="kbtn" data-a="pick" data-s="'+side+'" data-i="'+i+'" data-g="'+g+'">'+(K?'<b>'+K.nr+'</b> '+esc(K.name):'<span class="ph">Konto wählen …</span>')+'</button><input inputmode="decimal" placeholder="Betrag €" aria-label="Betrag '+(side==='S'?'Soll':'Haben')+'" value="'+esc(r.b)+'" data-i="betrag" data-s="'+side+'" data-n="'+i+'">'+(rows.length>1?'<button class="x" aria-label="Zeile entfernen" data-a="delrow" data-s="'+side+'" data-i="'+i+'">×</button>':'<span></span>')+(K&&S.hilfen&&S.modus==='uebung'&&!K.sub?'<div class="hint">'+REGEL[K.typ]+'</div>':'')+'</div>';}).join('');}
+function aktFall(g){const fs=FAELLE.filter(f=>g==='vab'?f.grp==='vab':f.grp!=='vab'),key=g==='vab'?'fallA':'fall';let f=fs.find(x=>x.id===S[key]);if(!f){f=fs.find(x=>fallStatus(x)==='offen'||fallStatus(x)==='teil')||fs[0];if(f)S[key]=f.id;}return f;}
+function buchForm(g){const fs=FAELLE.filter(f=>g==='vab'?f.grp==='vab':f.grp!=='vab');if(!fs.length)return '';const f=aktFall(g),st=fallStatus(f),zu=S.ausgewertet||(S.modus==='uebung'&&st==='fertig');
+ let h='<div class="card"><div class="fchips">'+fs.map(x=>{const s=fallStatus(x);return '<button class="'+s+(x.id===f.id?' on':'')+'" data-a="fall" data-id="'+x.id+'" data-g="'+g+'" title="'+(s==='fertig'||s==='gebucht'?'gebucht':s==='teil'?'teilweise gebucht':'offen')+'">'+esc(x.nr)+(s==='fertig'||s==='gebucht'?' ✓':s==='teil'?' …':'')+'</button>';}).join('')+'</div>'+
+ '<div class="beleg"><div class="eyebrow">'+(f.grp==='vab'?'Abschlussbuchung':f.grp==='eb'?'Eröffnung':'Geschäftsfall')+' '+esc(f.nr)+'</div>'+fallText(f.text)+'</div>'+(S.aufgabe.bild&&g!=='vab'?'<details style="margin-top:8px"><summary class="small">Vorlage als Bild anzeigen</summary><img class="belegimg" alt="Aufgabenvorlage" src="'+S.aufgabe.bild+'"></details>':'');
+ if(S.modus==='uebung'&&st==='teil')h+='<div class="fb info">Ein Teil dieses Geschäftsfalls ist gebucht. Es fehlen noch '+(f.teile.length-erledigteTeile(f).size)+' Teilbuchung(en).</div>';
+ if(zu)h+='<div class="fb ok">'+(S.ausgewertet?'Die Aufgabe ist abgegeben – es kann nicht mehr gebucht werden.':'✓ Dieser Fall ist vollständig gebucht.')+'</div>';
+ else h+='<div class="bs"><div class="col S"><h3><span>Soll</span><span class="small">links</span></h3>'+zeilen('S',g)+'<button class="addrow" data-a="addrow" data-s="S">+ Soll-Zeile</button></div><div class="col H"><h3><span>an Haben</span><span class="small">rechts</span></h3>'+zeilen('H',g)+'<button class="addrow" data-a="addrow" data-s="H">+ Haben-Zeile</button></div></div>'+waageHtml()+'<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" data-a="buchen" data-g="'+g+'">Buchen</button><button class="btn ghost" data-a="leeren">Eingabe leeren</button></div>';
+ if(FB&&FB.g===g)h+='<div class="fb '+FB.t+'" role="alert">'+FB.html+'</div>';
+ return h+'</div>';}
+function vGB(){return '<div class="pagehead"><div><div class="eyebrow">Schritt 3</div><h1>Grundbuch</h1><p>Bilde zu jedem Geschäftsfall den Buchungssatz: erst das Konto im Soll, dann „an“ das Konto im Haben. Die Summen beider Seiten müssen gleich sein.</p></div><button class="btn" data-a="hilfe">Buchungsregeln</button></div>'+buchForm('lauf')+'<div class="card"><h2>Grundbuch</h2>'+gbTabelle()+'</div>';}
+function vHB(){const up=unposted(),ks=hbKonten().filter(k=>{const t=konto(k).typ;return S.hbf==='alle'||(S.hbf==='bestand'&&(t==='A'||t==='P'))||(S.hbf==='erfolg'&&(t==='E'||t==='W'))||(S.hbf==='abschl'&&t==='X');});
+ let h='<div class="pagehead"><div><div class="eyebrow">Schritt 4</div><h1>Hauptbuch</h1><p>Im Hauptbuch wird jede Buchung auf den Sachkonten (T-Konten) erfasst – mit dem Gegenkonto als Text.</p></div>'+seg('setauto',S.auto?1:0,[[0,'Von Hand'],[1,'Automatisch (ERP)']])+'</div>';
+ if(up.length)h+='<div class="tray"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><b>'+up.length+' Posten noch nicht übertragen</b><span class="small muted">'+(S.pick?'Tippe jetzt auf die richtige Seite des passenden T-Kontos.':'1. Posten antippen · 2. Kontoseite antippen')+'</span></div><div class="cs">'+up.map(u=>'<button class="pc '+u.z.s+(S.pick&&S.pick.id===u.e.id&&S.pick.i===u.i?' on':'')+'" data-a="chip" data-id="'+u.e.id+'" data-i="'+u.i+'">Nr. '+u.e.nr+' · '+(u.z.s==='S'?'Soll':'Haben')+' · '+esc(kname(u.z.k))+' · '+fmt(u.z.b)+'</button>').join('')+'</div></div>';
+ else if(S.buch.some(e=>e.nr))h+='<div class="info">✓ Alle Buchungen aus dem Grundbuch sind im Hauptbuch erfasst.</div>';
+ h+='<div style="margin-bottom:12px">'+seg('hbf',S.hbf,[['alle','Alle Konten'],['bestand','Bestandskonten'],['erfolg','Erfolgskonten'],['abschl','Abschlusskonten']])+'</div><div class="tgrid">'+ks.map(tkonto).join('')+'</div>';return h;}
+function arow(it,aktiv){const K=konto(it.k),m={S:0,H:0};S.buch.forEach(e=>e.z.forEach(z=>{if(z.k===it.k&&z.p)m[z.s]+=z.b;}));
+ if(!it.saldo)return '<div class="arow zu"><span><b>'+it.k+'</b> '+esc(K.name)+'</span><span class="num">S '+fmt(m.S)+'</span><span class="num">H '+fmt(m.H)+'</span><span></span><span>✓ abgeschlossen</span><span></span></div>';
+ const d=AD[it.k]||{b:'',z:''},opts=[['','Abschluss über …'],['8020','8020 GuV-Konto'],['8010','8010 Schlussbilanzkonto']];const ek=S.aufgabe.einst.guv||'3000';opts.push([ek,kname(ek)]);if(K.parent&&K.parent!==ek)opts.push([K.parent,kname(K.parent)]);
+ return '<div class="arow"><span><b>'+it.k+'</b> '+esc(K.name)+'</span><span class="num">S '+fmt(m.S)+'</span><span class="num">H '+fmt(m.H)+'</span><input inputmode="decimal" placeholder="Saldo €" aria-label="Saldo '+it.k+'" data-i="ad" data-k="'+it.k+'" data-f="b" value="'+esc(d.b)+'"'+(aktiv?'':' disabled')+'><select aria-label="Abschlusskonto '+it.k+'" data-i="ad" data-k="'+it.k+'" data-f="z"'+(aktiv?'':' disabled')+'>'+opts.map(o=>'<option value="'+o[0]+'"'+(d.z===o[0]?' selected':'')+'>'+esc(o[1])+'</option>').join('')+'</select><button class="btn sm pri" data-a="close" data-k="'+it.k+'"'+(aktiv?'':' disabled')+'>Abschließen</button></div>';}
+function vAB(){const A=S.aufgabe,g=abschlussListe(),up=unposted().length,vabOk=gruppeFertig('vab'),laufOk=gruppeFertig('lauf');
+ let h='<div class="pagehead"><div><div class="eyebrow">Schritt 5</div><h1>Abschluss</h1><p>Zum Jahresende werden alle Konten abgeschlossen: Der Saldo gleicht die kleinere Seite aus und wird auf das Abschlusskonto gebucht.</p></div></div>';
+ if(!laufOk||up)h+='<div class="info amb"><b>Noch nicht bereit:</b> '+(!laufOk?'Es sind noch nicht alle Geschäftsfälle im Grundbuch gebucht. ':'')+(up?up+' Posten sind noch nicht ins Hauptbuch übertragen.':'')+'</div>';
+ if(A.angaben||A.abschluss.length){h+='<h2>A · Vorbereitende Abschlussbuchungen</h2>'+(A.angaben?'<div class="card"><div class="eyebrow">Abschlussangaben</div>'+fallText(A.angaben)+'</div>':'')+buchForm('vab');}
+ const bereit=laufOk&&!up&&(vabOk||S.modus==='pruefung')&&!S.ausgewertet,s1=bereit,s2=s1&&!offen(g.sub),s3=s2&&!offen(g.erf)&&g.guv.length>0,s4=s2&&!offen(g.erf)&&!offen(g.guv);
+ let gn=0;const grp=(t,d,a,akt)=>a.length?'<div class="ag"><span class="n">'+(++gn)+'</span>'+t+'</div><p class="small muted">'+d+'</p>'+a.map(x=>arow(x,akt)).join(''):'';
+ h+='<h2>B · Konten abschließen</h2><div class="card">'+(FB&&FB.g==='close'?'<div class="fb '+FB.t+'" role="alert" style="margin:0 0 12px">'+FB.html+'</div>':'')+'<p class="small">Saldo = größere Seite − kleinere Seite. Trage den Saldo ein und wähle das Konto, über das abgeschlossen wird.</p>'+
+ grp('Unterkonten','Unterkonten werden über ihr Hauptkonto abgeschlossen.',g.sub,s1)+grp('Erfolgskonten','Aufwands- und Ertragskonten werden über das GuV-Konto abgeschlossen.',g.erf,s2)+grp('GuV-Konto','Der Saldo des GuV-Kontos ist der Gewinn oder Verlust. Er wird auf das Eigenkapitalkonto gebucht.',g.guv,s3)+grp('Bestandskonten','Aktiv- und Passivkonten werden über das Schlussbilanzkonto abgeschlossen.',g.best,s4)+
+ '<div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn" data-a="closeall"'+(bereit&&!abschlussFertig()?'':' disabled')+'>Restliche Konten automatisch abschließen (ERP)</button>'+(abschlussFertig()?'<span class="pos"><b>✓ Alle Konten sind abgeschlossen.</b></span>':'')+'</div></div>';
+ const x=['8020','8010'].filter(k=>S.buch.some(e=>e.z.some(z=>z.k===k)));if(x.length)h+='<h2>Abschlusskonten</h2><div class="tgrid">'+x.map(tkonto).join('')+'</div>';
+ h+='<div class="card" style="margin-top:18px"><h2>Abschlussbuchungen im Grundbuch</h2>'+(S.buch.some(e=>e.typ==='abschl'||e.typ==='vab')?'<p class="small muted">Alle Abschlussbuchungen stehen mit laufender Nummer im Grundbuch (Schritt 3) und sind direkt auf den Konten erfasst.</p>':'<p class="muted">Noch keine Abschlussbuchungen.</p>')+'</div>';return h;}
+function vSB(){const eb=bilanzAus(ebSalden()),sb=bilanzAus(salden({ohneSBK:true})),fertig=abschlussFertig();
+ let h='<div class="pagehead"><div><div class="eyebrow">Schritt 6</div><h1>Schlussbilanz</h1><p>Die Schlussbilanz ergibt sich aus den Endbeständen der Bestandskonten im Hauptbuch. Sie aktualisiert sich mit jeder Buchung.</p></div>'+seg('vgl',S.vgl?1:0,[[0,'Schlussbilanz'],[1,'Vergleich mit Eröffnungsbilanz']])+'</div>';
+ h+=fertig?'<div class="info">✓ Der Abschluss ist vollständig. Aktiva und Passiva stimmen überein.</div>':'<div class="info amb"><b>Vorläufig:</b> Der Abschluss ist noch nicht vollständig.'+(sb.rest?' Das Ergebnis der Erfolgskonten ('+fmt(Math.abs(sb.rest))+' € '+(sb.rest>0?'Gewinn':'Verlust')+') ist noch nicht auf das Eigenkapital gebucht und wird deshalb gesondert angezeigt.':'')+(unposted().length?' Nicht übertragene Posten fehlen noch.':'')+'</div>';
+ h+=bilanzHtml(sb,fertig?'Schlussbilanz':'Schlussbilanz (vorläufig)');
+ if(S.vgl){const m1=ebSalden(),m2=salden({ohneSBK:true}),ks=[...new Set(Object.keys(m1).concat(Object.keys(m2)))].filter(k=>{const t=konto(k).typ;return t==='A'||t==='P';}).sort();h+='<div class="card" style="margin-top:18px"><h2>Veränderungen</h2><div class="tw"><table><thead><tr><th>Bilanzposten</th><th class="num">Eröffnungsbilanz €</th><th class="num">Schlussbilanz €</th><th class="num">Veränderung €</th></tr></thead><tbody>'+ks.map(k=>{const s=konto(k).typ==='A'?1:-1,a=s*(m1[k]||0),b=s*(m2[k]||0),d=b-a;return '<tr><td>'+esc(kname(k))+'</td><td class="num">'+fmt(a)+'</td><td class="num">'+fmt(b)+'</td><td class="num '+(d>0?'pos':d<0?'neg':'')+'">'+(d>0?'+':'')+fmt(d)+'</td></tr>';}).join('')+'<tr class="first"><td><b>Bilanzsumme</b></td><td class="num"><b>'+fmt(eb.sa)+'</b></td><td class="num"><b>'+fmt(sb.sa)+'</b></td><td class="num"><b>'+(sb.sa-eb.sa>0?'+':'')+fmt(sb.sa-eb.sa)+'</b></td></tr></tbody></table></div></div>';}
+ if(S.modus==='pruefung')h+='<div class="card" style="margin-top:18px"><h2>Abgabe</h2>'+(S.ausgewertet?auswertungHtml():'<p>Wenn du fertig bist, gib die Aufgabe ab. Danach kann nicht mehr gebucht werden.</p><button class="btn pri" data-a="auswerten">Abgeben und auswerten</button>')+'</div>';
+ return h;}
+function auswertungHtml(){const r=auswertung(),ok=r.filter(x=>x.ok).length,soll=sollWerte(),ist=bilanzAus(salden({ohneSBK:true})),g=erfolg().gew;
+ return '<p><b>'+ok+' von '+r.length+' Fällen richtig gebucht.</b></p><div class="tw"><table><thead><tr><th>Fall</th><th>Ergebnis</th><th>Musterlösung</th></tr></thead><tbody>'+r.map(x=>'<tr><td>'+esc(x.f.nr)+'</td><td class="'+(x.ok?'pos':'neg')+'"><b>'+(x.ok?'richtig':x.leer?'nicht gebucht':'falsch')+'</b></td><td style="white-space:pre-line">'+esc(lsgText(x.f.teile,true))+'</td></tr>').join('')+'</tbody></table></div><p style="margin-top:10px">Gewinn/Verlust: deine Buchführung <b>'+fmt(g)+' €</b> · Musterlösung <b>'+fmt(soll.gew)+' €</b><br>Bilanzsumme: deine Buchführung <b>'+fmt(ist.sa)+' €</b> · Musterlösung <b>'+fmt(soll.summe)+' €</b></p>';}
+const KZ=[
+ {id:'ekq',name:'Eigenkapitalquote',f:'Eigenkapital × 100 / Gesamtkapital',w:g=>[g.ek,g.gk],info:'Zeigt, welcher Anteil des Kapitals den Eigentümern gehört. Je höher die Quote, desto unabhängiger ist das Unternehmen von Kreditgebern.'},
+ {id:'fkq',name:'Fremdkapitalquote',f:'Fremdkapital × 100 / Gesamtkapital',w:g=>[g.fk,g.gk],info:'Zeigt den Anteil der Schulden am Gesamtkapital. Eigenkapitalquote und Fremdkapitalquote ergeben zusammen 100 %.'},
+ {id:'ai',name:'Anlagenintensität',f:'Anlagevermögen × 100 / Gesamtvermögen',w:g=>[g.av,g.gv],info:'Zeigt, wie viel Vermögen langfristig gebunden ist. Industriebetriebe haben meist eine höhere Anlagenintensität als Handelsbetriebe.'},
+ {id:'ad1',name:'Anlagendeckung I',f:'Eigenkapital × 100 / Anlagevermögen',w:g=>[g.ek,g.av],info:'Goldene Bilanzregel: Langfristig gebundenes Vermögen soll langfristig finanziert sein. Faustregel: möglichst 100 %.'},
+ {id:'ad2',name:'Anlagendeckung II',f:'(Eigenkapital + langfristiges Fremdkapital) × 100 / Anlagevermögen',w:g=>[g.ek+g.lfk,g.av],info:'Faustregel: mindestens 100 %. Dann ist das Anlagevermögen vollständig langfristig finanziert.'},
+ {id:'l1',name:'Liquidität 1. Grades',f:'Flüssige Mittel × 100 / kurzfristiges Fremdkapital',w:g=>[g.fl,g.kfk],info:'Barliquidität: Können die kurzfristigen Schulden sofort mit Bank und Kasse bezahlt werden? Faustregel: etwa 20 %.'},
+ {id:'l2',name:'Liquidität 2. Grades',f:'(Flüssige Mittel + Forderungen) × 100 / kurzfristiges Fremdkapital',w:g=>[g.fl+g.ford,g.kfk],info:'Einzugsbedingte Liquidität. Faustregel: mindestens 100 %.'},
+ {id:'l3',name:'Liquidität 3. Grades',f:'Umlaufvermögen × 100 / kurzfristiges Fremdkapital',w:g=>[g.uv,g.kfk],info:'Umsatzbedingte Liquidität. Faustregel: etwa 200 %.'},
+ {id:'ekr',name:'Eigenkapitalrentabilität',f:'Gewinn × 100 / Eigenkapital am Jahresanfang',e:true,w:(g,x)=>[x.gew,x.ekAnf],info:'Zeigt, wie sich das eingesetzte Eigenkapital verzinst hat. Zum Vergleich dient der Zinssatz einer sicheren Geldanlage.'},
+ {id:'ur',name:'Umsatzrentabilität',f:'Gewinn × 100 / Umsatzerlöse',e:true,w:(g,x)=>[x.gew,x.ums],info:'Zeigt, wie viel Gewinn von 100 € Umsatz übrig bleibt.'}];
+function kzDaten(){const eb=kat(bilanzAus(ebSalden())),sb=kat(bilanzAus(salden({ohneSBK:true}))),e=erfolg();return {eb,sb,x:{gew:e.gew,ums:e.ums,ekAnf:eb.ek}};}
+const kzWert=w=>w[1]?w[0]*100/w[1]:null;
+function vKZ(){const d=kzDaten(),k=KZ.find(x=>x.id===S.kz);
+ let h='<div class="pagehead"><div><div class="eyebrow">Schritt 7</div><h1>Bilanzkennzahlen</h1><p>Kennzahlen machen Bilanzen vergleichbar. Wähle eine Kennzahl, rechne zuerst selbst und kontrolliere dann dein Ergebnis.</p></div></div>'+(abschlussFertig()?'':'<div class="info amb">Der Abschluss ist noch nicht vollständig – die Werte der Schlussbilanz sind vorläufig.</div>')+'<div class="kzb">'+KZ.map(x=>'<button class="'+(S.kz===x.id?'on':'')+'" data-a="kz" data-id="'+x.id+'">'+x.name+'</button>').join('')+'</div>';
+ if(!k)return h+'<div class="card"><h2>Ausgangswerte</h2>'+kzBasis(d)+'</div>';
+ const ws=k.w(d.sb,d.x),we=k.e?null:k.w(d.eb,d.x),offenK=S.kzOffen[k.id];
+ h+='<div class="card"><div class="eyebrow">Kennzahl</div><h2>'+k.name+'</h2><div class="formel">'+k.name+' = '+k.f+'</div><p>'+k.info+'</p>';
+ h+='<div class="grid2"><div><h3>Selbst rechnen (Schlussbilanz)</h3><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input id="kzin" inputmode="decimal" placeholder="Ergebnis in %" style="border:1px solid var(--line);border-radius:9px;min-height:44px;padding:6px 10px;width:150px;text-align:right"><button class="btn pri" data-a="kzcheck">Prüfen</button><button class="btn" data-a="kzshow">Rechenweg zeigen</button></div>'+(FB&&FB.g==='kz'?'<div class="fb '+FB.t+'">'+FB.html+'</div>':'')+'</div>';
+ if(offenK){const zeile=(t,w)=>'<p><b>'+t+':</b><br>'+fmt(w[0])+' € × 100 / '+fmt(w[1])+' € = <span class="erg">'+pct(kzWert(w))+'</span></p>';h+='<div><h3>Rechenweg</h3>'+zeile(k.e?'Geschäftsjahr':'Schlussbilanz',ws)+(we?zeile('Eröffnungsbilanz',we):'')+'</div>';}
+ return h+'</div></div><div class="card"><h2>Ausgangswerte</h2>'+kzBasis(d)+'</div>';}
+function kzBasis(d){const r=(n,f)=>'<tr><td>'+n+'</td><td class="num">'+fmt(f(d.eb))+'</td><td class="num">'+fmt(f(d.sb))+'</td></tr>';return '<div class="tw"><table><thead><tr><th>Größe</th><th class="num">Eröffnungsbilanz €</th><th class="num">Schlussbilanz €</th></tr></thead><tbody>'+r('Anlagevermögen',g=>g.av)+r('Umlaufvermögen',g=>g.uv)+r('davon flüssige Mittel (Bank, Kasse)',g=>g.fl)+r('davon Forderungen',g=>g.ford)+r('davon Vorräte',g=>g.vor)+r('Gesamtvermögen',g=>g.gv)+r('Eigenkapital',g=>g.ek)+r('Kurzfristiges Fremdkapital',g=>g.kfk)+r('Langfristiges Fremdkapital',g=>g.lfk)+r('Gesamtkapital',g=>g.gk)+'<tr class="first"><td>Gewinn (+) / Verlust (−) des Geschäftsjahres</td><td></td><td class="num">'+fmt(d.x.gew)+'</td></tr><tr><td>Umsatzerlöse</td><td></td><td class="num">'+fmt(d.x.ums)+'</td></tr></tbody></table></div>';}
+
+/* ---------- Dialoge ---------- */
+function renderModal(){const m=$('#modal');if(!MODAL){m.innerHTML='';return;}m.innerHTML='<div class="ov" data-a="ovclose"><div class="dlg" role="dialog" aria-modal="true">'+MODAL()+'</div></div>';const f=$('#ksuche');if(f)f.focus();}
+const dh=t=>'<div class="dh"><h2>'+t+'</h2><button class="btn sm" data-a="mclose">Schließen</button></div>';
+function pickList(){const q=(PICK.q||'').toLowerCase().trim(),nur=!PICK.alle;let list=nur?AK.map(konto):KP_LIST.slice();
+ list=list.filter(k=>(S.aufgabe.einst.eroeffnung==='manuell'||k.nr!=='8000')&&k.nr!=='8010'&&k.nr!=='8020'&&(!q||k.nr.startsWith(q)||k.name.toLowerCase().includes(q)));
+ if(!list.length)return '<p class="muted" style="padding:12px">Kein Konto gefunden.</p>';let h='',c=null;list.forEach(k=>{if(k.nr[0]!==c){c=k.nr[0];h+='<div class="kh">'+KLASSEN[+c]+'</div>';}const K=konto(k.nr);h+='<button class="'+(K.sub?'sub':'')+'" data-a="pickk" data-k="'+K.nr+'"><b>'+K.nr+'</b><span>'+esc(K.name)+'</span>'+(S.hilfen&&S.modus==='uebung'?'<span class="ty">'+(K.sub?'Unterkonto':TYPNAME[K.typ])+'</span>':'')+'</button>';});return h;}
+function mPick(){return dh('Konto wählen')+'<input id="ksuche" data-i="ksuche" placeholder="Kontonummer oder Name suchen …" value="'+esc(PICK.q||'')+'" style="width:100%;border:1px solid var(--line);border-radius:9px;min-height:44px;padding:6px 12px"><div style="margin-top:10px">'+seg('pickalle',PICK.alle?1:0,[[0,'Konten dieser Aufgabe'],[1,'Gesamter Kontenplan']])+'</div><div class="klist" id="klist">'+pickList()+'</div>';}
+function mHilfe(){const r=(t,l,rr,x)=>'<div class="rule"><b>'+t+'</b>'+x+'<div class="tt"><div><span class="cS">Soll</span><br>'+l+'</div><div><span class="cH">Haben</span><br>'+rr+'</div></div></div>';
+ return dh('Buchungsregeln')+'<div class="info"><b>In vier Fragen zum Buchungssatz:</b><br>1. Welche Konten werden berührt?<br>2. Welche Kontoart (Aktiv, Passiv, Aufwand, Ertrag)?<br>3. Mehrung oder Minderung?<br>4. Auf welcher Seite wird gebucht – Soll oder Haben?</div><div class="rules">'+
+ r('Aktivkonten','Anfangsbestand<br>Mehrungen','Minderungen<br>Schlussbestand','Vermögen, z. B. Maschinen, Bank, Kasse, Forderungen')+r('Passivkonten','Minderungen<br>Schlussbestand','Anfangsbestand<br>Mehrungen','Kapital, z. B. Eigenkapital, Verbindlichkeiten')+r('Aufwandskonten','Aufwendungen','Saldo → GuV','mindern das Eigenkapital, z. B. Löhne, Miete, Rohstoffverbrauch')+r('Ertragskonten','Saldo → GuV','Erträge','mehren das Eigenkapital, z. B. Umsatzerlöse')+'</div>'+
+ '<div class="info" style="margin-top:12px"><b>Buchungssatz:</b> immer „Soll an Haben“. Die Summe der Sollbeträge ist gleich der Summe der Habenbeträge.</div>'+
+ '<div class="info"><b>Umsatzsteuer:</b> Beim Einkauf wird die Steuer als <b>Vorsteuer (2600)</b> im Soll gebucht – sie ist eine Forderung an das Finanzamt. Beim Verkauf wird die <b>Umsatzsteuer (4800)</b> im Haben gebucht – sie ist eine Verbindlichkeit. Am Ende wird die Vorsteuer mit der Umsatzsteuer verrechnet; die Zahllast bleibt als Verbindlichkeit stehen.</div>'+
+ '<div class="info"><b>Werkstoffe:</b> Einkäufe von Roh- und Hilfsstoffen werden sofort als Aufwand gebucht (Klasse 6). Am Jahresende gleicht die Inventur ab: Ist der Endbestand niedriger als der Anfangsbestand, wurde zusätzlich Material verbraucht (Aufwandskonto an Bestandskonto); ist er höher, wird der Aufwand gemindert.</div>'+
+ '<div class="info"><b>Abschluss:</b> Erfolgskonten → GuV-Konto (8020) → Eigenkapital. Bestandskonten → Schlussbilanzkonto (8010).</div>';}
+function mAufgaben(){return dh('Aufgaben')+'<p class="small muted">Beim Wechsel der Aufgabe beginnt die Bearbeitung neu. Sichere deinen Stand vorher über „Speichern / Laden“.</p><div class="klist" style="max-height:none"><button data-a="ladebuiltin"><b>Beispiel</b><span>'+esc(dec(BUILTIN).titel)+'</span></button>'+REPO.map((r,i)=>'<button data-a="laderepo" data-i="'+i+'"><b>'+(i+1)+'</b><span>'+esc(r.titel||r.datei)+'</span></button>').join('')+'</div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-a="import">Aufgabendatei laden …</button><button class="btn ghost" data-a="editor">Für Lehrkräfte: Aufgabe erstellen</button></div>';}
+function mDateien(){return dh('Speichern / Laden')+'<p>Dein Stand wird in diesem Browser automatisch zwischengespeichert. Wenn du das Gerät wechselst, sichere ihn als Datei und lade sie auf dem anderen Gerät wieder.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" data-a="expstand">Arbeitsstand als Datei sichern</button><button class="btn" data-a="import">Datei laden …</button><button class="btn" data-a="pdf">Drucken / als PDF sichern</button></div><hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><button class="btn warn" data-a="reset">Aufgabe zurücksetzen (alle Buchungen löschen)</button>';}
+
+/* ---------- Lehrkraft: Aufgabe erstellen ---------- */
+function edNeu(){return {titel:'',quelle:'',hinweis:'',pin:'',ero:'auto',guv:'3000',kwahl:'aufgabe',ab:'',faelle:[{nr:'1',text:'',lsg:''}],angaben:'',abschluss:[],zusatz:'',bild:''};}
+function edAus(A){return {id:A.id,titel:A.titel||'',quelle:A.quelle||'',hinweis:A.hinweis||'',pin:A.pin||'',ero:A.einst.eroeffnung,guv:A.einst.guv,kwahl:A.einst.kontenauswahl,ab:A.ab.map(x=>x.k+' '+(A.kontonamen[x.k]?A.kontonamen[x.k]+' ':'')+fmt(x.b)).join('\n'),faelle:A.faelle.map(f=>({nr:f.nr,text:f.text,lsg:lsgText(f.teile)})),angaben:A.angaben||'',abschluss:A.abschluss.map(f=>({nr:f.nr,text:f.text,lsg:lsgText(f.teile)})),zusatz:A.zusatz.map(k=>k+(A.kontonamen[k]?' '+A.kontonamen[k]:'')).join('\n'),bild:A.bild||''};}
+function edBauen(){const errs=[],kn={},ab=[],zus=[];
+ ED.ab.split('\n').forEach((l,i)=>{l=l.trim();if(!l)return;const m=/^(\d{4})\s+(?:(.*\S)\s+)?([\d.,]+)\s*€?$/.exec(l),b=m?parseBetrag(m[3]):NaN;if(!m||isNaN(b)){errs.push('Anfangsbestände, Zeile '+(i+1)+': nicht lesbar („'+l+'“).');return;}if(m[2])kn[m[1]]=m[2];ab.push({k:m[1],b});});
+ ED.zusatz.split('\n').forEach((l,i)=>{l=l.trim();if(!l)return;const m=/^(\d{4})(?:\s+(.+))?$/.exec(l);if(!m){errs.push('Zusätzliche Konten, Zeile '+(i+1)+': nicht lesbar.');return;}if(m[2])kn[m[1]]=m[2];zus.push(m[1]);});
+ const kOk=(k,wo)=>{if(!KP[k]&&!kn[k])errs.push(wo+': Konto '+k+' steht nicht im Kontenplan. Bitte unter „Zusätzliche Konten“ mit Namen anlegen.');};
+ ab.forEach(x=>kOk(x.k,'Anfangsbestände'));
+ let a=0,p=0;ab.forEach(x=>{if(typVon(x.k)==='A')a+=x.b;else p+=x.b;});if(!ab.length)errs.push('Es sind keine Anfangsbestände angegeben.');else if(a!==p)errs.push('Die Anfangsbestände gehen nicht auf: Aktiva '+fmt(a)+' € ≠ Passiva '+fmt(p)+' €.');
+ const teile=(txt,wo)=>{const r=[];txt.split('\n').forEach((l,i)=>{l=l.trim();if(!l)return;const pp=l.split(/\s+an\s+/i);if(pp.length!==2){errs.push(wo+', Lösungszeile '+(i+1)+': „an“ fehlt oder kommt mehrfach vor.');return;}const side=t=>t.split(/\s*[+;]\s*/).map(x=>{const m=/^(\d{4})\s+([\d.,]+)\s*€?$/.exec(x.trim()),b=m?parseBetrag(m[2]):NaN;if(!m||isNaN(b)){errs.push(wo+', Lösungszeile '+(i+1)+': „'+x.trim()+'“ ist nicht lesbar (erwartet: Kontonummer Betrag).');return null;}kOk(m[1],wo);return {k:m[1],b};});const s=side(pp[0]),h=side(pp[1]);if(s.includes(null)||h.includes(null))return;const su=x=>x.reduce((q,y)=>q+y.b,0);if(su(s)!==su(h)){errs.push(wo+', Lösungszeile '+(i+1)+': Soll ('+fmt(su(s))+') ≠ Haben ('+fmt(su(h))+').');return;}r.push({s,h});});if(!r.length)errs.push(wo+': Es fehlt die Musterlösung.');return r;};
+ const fs=arr=>arr.map((f,i)=>({nr:String(f.nr||i+1),text:f.text,teile:teile(f.lsg,'Fall '+(f.nr||i+1))}));
+ if(!ED.titel.trim())errs.push('Bitte einen Titel angeben.');if(!ED.faelle.length)errs.push('Es gibt noch keinen Geschäftsfall.');
+ const task=normAufgabe({id:ED.id||('a'+Date.now()),titel:ED.titel.trim(),quelle:ED.quelle.trim(),hinweis:ED.hinweis.trim(),pin:ED.pin.trim(),einst:{eroeffnung:ED.ero,guv:ED.guv,kontenauswahl:ED.kwahl},kontonamen:kn,zusatz:zus,ab,faelle:fs(ED.faelle),angaben:ED.angaben,abschluss:fs(ED.abschluss),bild:ED.bild});
+ if(!KP[task.einst.guv]&&!kn[task.einst.guv])errs.push('Das Konto für den GuV-Abschluss ('+task.einst.guv+') ist unbekannt.');
+ return {task,errs};}
+function vEditor(){const inp=(f,l,ph)=>'<label class="f">'+l+'<input data-i="ed" data-f="'+f+'" value="'+esc(ED[f])+'" placeholder="'+esc(ph||'')+'"></label>';
+ const fall=(f,i,arr)=>'<div class="edf"><div class="r"><label class="f">Nr.<input data-i="edf" data-arr="'+arr+'" data-n="'+i+'" data-f="nr" value="'+esc(f.nr)+'"></label><label class="f">Text (Betrag hinter „|“ wird rechtsbündig angezeigt)<textarea rows="3" data-i="edf" data-arr="'+arr+'" data-n="'+i+'" data-f="text" placeholder="ER vom 01.12.: Zieleinkauf von Rohstoffen, netto | 10.000,00&#10;+ 19 % Umsatzsteuer | 1.900,00">'+esc(f.text)+'</textarea></label></div><label class="f">Musterlösung – eine Teilbuchung je Zeile<textarea rows="2" data-i="edf" data-arr="'+arr+'" data-n="'+i+'" data-f="lsg" placeholder="6000 10000 + 2600 1900 an 4400 11900">'+esc(f.lsg)+'</textarea></label><button class="btn sm warn" data-a="edfdel" data-arr="'+arr+'" data-n="'+i+'">Fall entfernen</button></div>';
+ return '<div class="pagehead"><div><div class="eyebrow">Für Lehrkräfte</div><h1>Aufgabe erstellen</h1><p>Erfassen Sie Anfangsbestände, Geschäftsfälle und Musterlösung. Die exportierte Aufgabendatei laden die Lernenden über „Aufgaben“ – oder Sie legen sie im Ordner <code>aufgaben/</code> neben diese Seite.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-a="edopen">Aufgabendatei öffnen …</button><button class="btn" data-a="edzurueck">Zurück zur App</button></div></div>'+
+ '<div class="info"><b>Schreibweise der Musterlösung:</b> <code>Kontonummer Betrag</code>, mehrere Konten mit <code>+</code>, Soll und Haben getrennt durch <code>an</code>. Beispiel: <code>6000 208000 + 2600 39520 an 4400 247520</code>. Besteht ein Fall aus mehreren unabhängigen Buchungen (a, b, c), schreiben Sie jede in eine eigene Zeile – die Lernenden dürfen sie dann einzeln oder zusammengefasst buchen.</div>'+
+ '<div class="grid2"><div class="card"><h2>Allgemeines</h2>'+inp('titel','Titel','z. B. Geschäftsgang 1')+inp('quelle','Quelle (optional)','z. B. Schulbuch S. …')+inp('hinweis','Hinweis für die Lernenden (optional)')+inp('pin','Lehrer-PIN zum späteren Bearbeiten (optional)')+
+ '<label class="f">Eröffnung der Konten<select data-i="ed" data-f="ero"><option value="auto"'+(ED.ero==='auto'?' selected':'')+'>Anfangsbestände automatisch vortragen</option><option value="manuell"'+(ED.ero==='manuell'?' selected':'')+'>Lernende buchen die Eröffnung über 8000 selbst</option></select></label>'+inp('guv','GuV-Konto wird abgeschlossen über Konto','3000')+
+ '<label class="f">Kontenauswahl im Grundbuch<select data-i="ed" data-f="kwahl"><option value="aufgabe"'+(ED.kwahl==='aufgabe'?' selected':'')+'>Zuerst nur die Konten der Aufgabe zeigen</option><option value="alle"'+(ED.kwahl==='alle'?' selected':'')+'>Immer den gesamten Kontenplan zeigen</option></select></label></div>'+
+ '<div class="card"><h2>Konten</h2><label class="f">Anfangsbestände – je Zeile: Kontonummer, optional eigener Name, Betrag<textarea rows="9" data-i="ed" data-f="ab" placeholder="0700 Maschinen 400.000,00&#10;2800 449.480,00&#10;3000 918.400,00">'+esc(ED.ab)+'</textarea></label><label class="f">Zusätzliche Konten (optional) – erscheinen in der Kontenauswahl, z. B. als Ablenker oder mit eigenem Namen<textarea rows="3" data-i="ed" data-f="zusatz" placeholder="6710&#10;0720 Werkzeugmaschinen">'+esc(ED.zusatz)+'</textarea></label>'+
+ '<div class="opt"><div class="t">Vorlage als Bild (optional)</div><button class="btn sm" data-a="edbild">Bild wählen …</button> '+(ED.bild?'<button class="btn sm warn" data-a="edbildweg">Bild entfernen</button><img class="belegimg" alt="" src="'+ED.bild+'" style="max-height:140px;display:block">':'')+'<div class="d">Bitte beachten: Die Seite ist bei GitHub öffentlich. Bilder aus Schulbüchern sind urheberrechtlich geschützt.</div></div></div></div>'+
+ '<div class="card"><h2>Geschäftsfälle</h2>'+ED.faelle.map((f,i)=>fall(f,i,'faelle')).join('')+'<button class="btn" data-a="edfadd" data-arr="faelle">+ Geschäftsfall</button></div>'+
+ '<div class="card"><h2>Abschluss</h2><label class="f">Abschlussangaben (Text, z. B. Endbestände laut Inventur)<textarea rows="4" data-i="ed" data-f="angaben">'+esc(ED.angaben)+'</textarea></label><p class="small muted">Vorbereitende Abschlussbuchungen (z. B. Bestandsveränderungen, Verrechnung der Vorsteuer). Den Abschluss der Konten über GuV und SBK prüft die Seite automatisch – er muss hier nicht erfasst werden.</p>'+ED.abschluss.map((f,i)=>fall(f,i,'abschluss')).join('')+'<button class="btn" data-a="edfadd" data-arr="abschluss">+ Abschlussbuchung</button></div>'+
+ '<div class="card"><div id="ederr">'+(ED.errs?(ED.errs.length?'<div class="fb err"><b>Bitte korrigieren:</b><br>'+ED.errs.map(esc).join('<br>')+'</div>':'<div class="fb ok">✓ Die Aufgabe ist vollständig und rechnerisch stimmig.</div>'):'')+'</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn" data-a="edcheck">Prüfen</button><button class="btn pri" data-a="edexport">Aufgabendatei exportieren</button><button class="btn" data-a="edtest">In der App testen</button><button class="btn warn" data-a="edleer">Formular leeren</button></div></div>';}
+function edSave(){try{localStorage.setItem(EDKEY,JSON.stringify(Object.assign({},ED,{errs:undefined})));}catch(e){}}
+
+/* ---------- Druck / PDF ---------- */
+function baueDruck(){if(!S||!S.aufgabe)return;const d=kzDaten(),r=S.modus==='pruefung'&&S.ausgewertet;
+ let h='<div class="dk"><div><div class="wm">BÜRODESIGN GMBH</div><div class="tag">Finanzbuchhaltung · Lerngebiet 11.3</div><h1 style="margin-top:6pt">'+esc(S.aufgabe.titel)+'</h1></div><div class="small">Name: <b>'+esc(S.name||'____________________')+'</b><br>Klasse: <b>'+esc(S.klasse||'________')+'</b><br>Datum: '+new Date().toLocaleDateString('de-DE')+'<br>'+(S.modus==='uebung'?'Übungsmodus':'Prüfungsmodus')+'</div></div>';
+ h+='<h2>Eröffnungsbilanz</h2>'+bilanzHtml(bilanzAus(ebSalden()),'Eröffnungsbilanz')+'<h2>Grundbuch</h2>'+gbTabelle(true)+'<h2>Hauptbuch</h2><div class="tgrid">'+[...new Set(hbKonten().concat(['8020','8010'].filter(k=>S.buch.some(e=>e.z.some(z=>z.k===k)))))].sort().map(tkonto).join('')+'</div><h2>'+(abschlussFertig()?'Schlussbilanz':'Schlussbilanz (vorläufig)')+'</h2>'+bilanzHtml(bilanzAus(salden({ohneSBK:true})),'Schlussbilanz');
+ h+='<h2>Bilanzkennzahlen</h2><table><thead><tr><th>Kennzahl</th><th>Formel</th><th class="num">Eröffnungsbilanz</th><th class="num">Schlussbilanz</th></tr></thead><tbody>'+KZ.map(k=>'<tr><td>'+k.name+'</td><td>'+k.f+'</td><td class="num">'+(k.e?'':pct(kzWert(k.w(d.eb,d.x))))+'</td><td class="num">'+pct(kzWert(k.w(d.sb,d.x)))+'</td></tr>').join('')+'</tbody></table>';
+ h+='<h2>Bearbeitungsprotokoll</h2>';
+ if(S.modus==='uebung')h+='<table><thead><tr><th>Fall</th><th>Status</th><th class="num">Fehlversuche</th><th>Lösung angezeigt</th></tr></thead><tbody>'+FAELLE.map(f=>'<tr><td>'+esc(f.nr)+(f.grp==='vab'?' (Abschluss)':'')+'</td><td>'+({fertig:'gebucht',teil:'teilweise',offen:'offen'}[fallStatus(f)])+'</td><td class="num">'+(S.versuche[f.id]||0)+'</td><td>'+(S.geloest[f.id]?'ja':'nein')+'</td></tr>').join('')+'</tbody></table>';
+ else h+=r?auswertungHtml():'<p>Die Aufgabe wurde noch nicht abgegeben.</p>';
+ $('#druck').innerHTML=h;}
+
+/* ---------- Aktionen ---------- */
+function render(){save();$('#app').innerHTML=shell();renderModal();}
+function resetDraft(){S.draft=leerDraft();}
+function importDatei(cb,accept){const f=$('#datei');f.value='';f.accept=accept||'.json,application/json';f.onchange=()=>{const file=f.files[0];if(!file)return;const rd=new FileReader();if(accept&&accept.startsWith('image')){rd.onload=()=>cb(rd.result);rd.readAsDataURL(file);}else{rd.onload=()=>{let o;try{o=JSON.parse(rd.result);}catch(e){toast('Die Datei ist keine gültige Aufgaben- oder Standdatei.',true);return;}cb(o);};rd.readAsText(file);}};f.click();}
+function leseAufgabe(o){if(o&&o.format==='fow-buchen-aufgabe'&&o.d)return normAufgabe(dec(o.d));if(o&&o.faelle&&o.ab)return normAufgabe(o);return null;}
+function wechsel(A){if(S&&S.buch.some(e=>e.nr)&&!confirm('Die aktuelle Bearbeitung wird durch die neue Aufgabe ersetzt. Fortfahren?'))return false;ladeAufgabe(A,S);MODAL=null;render();window.scrollTo(0,0);return true;}
+const AKT={
+ nav(d){S.view=d.v;FB=null;S.pick=null;resetDraft();render();window.scrollTo(0,0);},
+ fall(d){S[d.g==='vab'?'fallA':'fall']=d.id;FB=null;resetDraft();render();},
+ addrow(d){S.draft[d.s].push({k:'',b:''});render();},
+ delrow(d){S.draft[d.s].splice(+d.i,1);render();},
+ leeren(){resetDraft();FB=null;render();},
+ pick(d){PICK={s:d.s,i:+d.i,g:d.g,q:'',alle:S.aufgabe.einst.kontenauswahl==='alle'};MODAL=mPick;renderModal();},
+ pickalle(d){PICK.alle=d.v==='1';renderModal();},
+ pickk(d){S.draft[PICK.s][PICK.i].k=d.k;MODAL=null;PICK=null;render();},
+ buchen(d){const g=d.g,f=aktFall(g),lines=[];let err=null;
+  ['S','H'].forEach(s=>S.draft[s].forEach(r=>{if(!r.k&&!String(r.b).trim())return;const b=parseBetrag(r.b);if(!r.k)err='Bitte in jeder Zeile ein Konto wählen.';else if(isNaN(b)||b<=0)err='Bitte in jeder Zeile einen gültigen Betrag eingeben (z. B. 1.250,00).';else lines.push({s,k:r.k,b});}));
+  const su=s=>lines.filter(l=>l.s===s).reduce((x,y)=>x+y.b,0);
+  if(!err&&(!su('S')||!su('H')))err='Ein Buchungssatz braucht mindestens ein Konto im Soll und eines im Haben.';
+  if(!err&&su('S')!==su('H'))err='Soll und Haben sind nicht gleich groß (Differenz: '+fmt(Math.abs(su('S')-su('H')))+' €).';
+  if(err){FB={g,t:'err',html:esc(err)};render();return;}
+  const e={id:++S.seq,nr:0,fall:f.id,typ:f.grp==='vab'?'vab':f.grp==='eb'?'ebm':'lauf',z:lines.map(l=>({s:l.s,k:l.k,b:l.b,p:S.auto||f.grp==='vab'}))};
+  if(S.modus==='uebung'){const r=pruefe(f,lines);if(!r.ok){const n=S.versuche[f.id]=(S.versuche[f.id]||0)+1;FB={g,t:'err',html:esc(hinweis(r.iss,n))+(n>=3?'<div style="margin-top:8px"><button class="btn sm" data-a="loesung" data-g="'+g+'">Lösung anzeigen</button></div>':n===2?'':'')};render();return;}e.teile=r.teile;}
+  e.nr=naechsteNr();S.buch.push(e);resetDraft();const st=fallStatus(f);
+  FB={g,t:'ok',html:S.modus==='uebung'?(st==='fertig'?'✓ Richtig gebucht (Nr. '+e.nr+').':'✓ Richtig – dieser Teil ist gebucht (Nr. '+e.nr+'). Der Fall hat noch weitere Buchungen.')+(e.z.some(z=>!z.p)?' Übertrage die Buchung jetzt ins Hauptbuch.':''):'Buchung Nr. '+e.nr+' wurde erfasst.'};
+  if(S.modus==='pruefung'&&f.teile.length>1)FB.html+=' Gehören zu diesem Fall weitere Buchungen, erfasse sie jetzt – sonst wähle oben den nächsten Fall.';
+  if(st==='fertig'||(st==='gebucht'&&f.teile.length===1)){const fs=FAELLE.filter(x=>g==='vab'?x.grp==='vab':x.grp!=='vab'),nx=fs.find(x=>fallStatus(x)==='offen'||fallStatus(x)==='teil');if(nx)S[g==='vab'?'fallA':'fall']=nx.id;else FB.html+=' <b>Alle '+(g==='vab'?'vorbereitenden Abschlussbuchungen':'Geschäftsfälle')+' sind gebucht.</b>';}
+  render();},
+ loesung(d){const f=aktFall(d.g),done=erledigteTeile(f),i=f.teile.findIndex((t,j)=>!done.has(j));if(i<0)return;const t=f.teile[i];S.geloest[f.id]=true;S.draft={S:t.s.map(x=>({k:x.k,b:fmt(x.b)})),H:t.h.map(x=>({k:x.k,b:fmt(x.b)}))};FB={g:d.g,t:'info',html:'Die Lösung ist eingetragen. Vollziehe sie nach (Kontoart? Mehrung oder Minderung?) und klicke dann auf „Buchen“.'};render();},
+ storno(d){const e=S.buch.find(x=>x.id===+d.id);if(!e||e.st)return;if(!confirm('Buchung Nr. '+e.nr+' stornieren? Es wird eine Gegenbuchung erzeugt.'))return;e.st=true;S.buch.push({id:++S.seq,nr:naechsteNr(),fall:e.fall,typ:'storno',st:true,z:e.z.map(z=>({s:z.s==='S'?'H':'S',k:z.k,b:z.b,p:z.p}))});render();},
+ chip(d){const same=S.pick&&S.pick.id===+d.id&&S.pick.i===+d.i;S.pick=same?null:{id:+d.id,i:+d.i};render();},
+ post(d){if(!S.pick)return;const e=S.buch.find(x=>x.id===S.pick.id),z=e&&e.z[S.pick.i];if(!z)return;if(z.k!==d.k){const key=e.id+'-'+S.pick.i;PV[key]=(PV[key]||0)+1;toast(PV[key]>1?'Im Grundbuch steht für diesen Posten das Konto '+kname(z.k)+'.':'Dieser Posten gehört auf ein anderes Konto. Sieh im Grundbuch nach.',true);return;}if(z.s!==d.s){toast('Richtiges Konto, aber falsche Seite: Im Grundbuch steht das Konto im '+(z.s==='S'?'Soll (links)':'Haben (rechts)')+'.',true);return;}z.p=true;S.pick=null;render();},
+ setauto(d){S.auto=d.v==='1';if(S.auto){S.buch.forEach(e=>e.z.forEach(z=>z.p=true));S.pick=null;}render();},
+ sethilfen(d){S.hilfen=d.v==='1';render();},
+ setmodus(d){if(d.v===S.modus)return;if(S.buch.some(e=>e.nr)&&!confirm('Beim Wechsel der Arbeitsweise werden alle bisherigen Buchungen gelöscht. Fortfahren?'))return;const A=S.aufgabe,alt=S;ladeAufgabe(A,alt);S.modus=d.v;render();},
+ hbf(d){S.hbf=d.v;render();},
+ vgl(d){S.vgl=d.v==='1';render();},
+ close(d){const k=d.k,g=abschlussListe(),it=[].concat(g.sub,g.erf,g.guv,g.best).find(x=>x.k===k),a=AD[k]||{},b=parseBetrag(a.b);if(!it)return;ADV[k]=(ADV[k]||0)+1;const fb=t=>{FB={g:'close',t:'err',html:'<b>'+esc(kname(k))+':</b> '+t};render();};
+  if(isNaN(b))return fb('Bitte den Saldo als Betrag eingeben.');
+  if(b!==Math.abs(it.saldo))return fb('Der Saldo stimmt nicht. Saldo = größere Seite − kleinere Seite.'+(ADV[k]>1?' (Summe Soll und Summe Haben stehen in der Zeile.)':''));
+  if(!a.z)return fb('Bitte wähle das Konto, über das abgeschlossen wird.');
+  if(S.modus==='uebung'&&a.z!==it.ziel){const K=konto(k);return fb(k==='8020'?'Der Gewinn oder Verlust wird auf das Eigenkapitalkonto übertragen.':K.sub?'Ein Unterkonto wird über sein Hauptkonto abgeschlossen.':(K.typ==='E'||K.typ==='W')?'Erfolgskonten (Aufwand und Ertrag) werden über das GuV-Konto abgeschlossen.':'Bestandskonten (Aktiv und Passiv) werden über das Schlussbilanzkonto abgeschlossen.');}
+  schliesse(k,a.z);delete AD[k];FB={g:'close',t:'ok',html:'✓ '+esc(kname(k))+' ist abgeschlossen.'+(k==='8020'?' Der '+(it.saldo<0?'Gewinn':'Verlust')+' beträgt '+fmt(Math.abs(it.saldo))+' €.':'')};render();},
+ closeall(){for(let i=0;i<3;i++){const g=abschlussListe();g.sub.concat(g.erf).forEach(x=>schliesse(x.k,x.ziel));}let g=abschlussListe();g.guv.forEach(x=>schliesse(x.k,x.ziel));g=abschlussListe();g.best.forEach(x=>schliesse(x.k,x.ziel));AD={};FB={g:'close',t:'ok',html:'✓ Alle restlichen Konten wurden automatisch abgeschlossen. Sieh dir die Buchungen im Grundbuch und auf den Konten an.'};render();},
+ auswerten(){if(!confirm('Aufgabe jetzt abgeben? Danach kann nicht mehr gebucht werden.'))return;S.ausgewertet=true;render();},
+ kz(d){S.kz=S.kz===d.id?null:d.id;FB=null;render();},
+ kzshow(){S.kzOffen[S.kz]=true;render();},
+ kzcheck(){const k=KZ.find(x=>x.id===S.kz),d=kzDaten(),soll=kzWert(k.w(d.sb,d.x)),v=parseFloat(String($('#kzin').value).replace('%','').replace(/\s/g,'').replace(',','.'));if(isNaN(v)){FB={g:'kz',t:'err',html:'Bitte dein Ergebnis als Zahl eingeben, z. B. 74,7.'};}else if(soll!=null&&Math.abs(v-soll)<=0.1){S.kzOffen[k.id]=true;FB={g:'kz',t:'ok',html:'✓ Richtig: '+pct(soll)};}else FB={g:'kz',t:'err',html:'Das passt noch nicht. Prüfe, welche Bilanzposten in Zähler und Nenner gehören (siehe Ausgangswerte unten).'};render();},
+ hilfe(){MODAL=mHilfe;renderModal();},
+ aufgaben(){MODAL=mAufgaben;renderModal();},
+ dateien(){MODAL=mDateien;renderModal();},
+ mclose(){MODAL=null;PICK=null;renderModal();},
+ ovclose(d,el,ev){if(ev.target===el){MODAL=null;PICK=null;renderModal();}},
+ pdf(){MODAL=null;renderModal();baueDruck();window.print();},
+ expstand(){download('Stand_'+dateiName(S.aufgabe.titel)+'_'+dateiName(S.name||'Name')+'.json',JSON.stringify({format:'fow-buchen-stand',version:1,titel:S.aufgabe.titel,name:S.name,datum:new Date().toISOString(),d:enc(S)}));toast('Der Arbeitsstand wurde als Datei gesichert.');},
+ import(){importDatei(o=>{if(o&&o.format==='fow-buchen-stand'&&o.d){let n;try{n=dec(o.d);}catch(e){n=null;}if(!n||!n.aufgabe){toast('Die Standdatei ist beschädigt.',true);return;}if(S.buch.some(e=>e.nr)&&!confirm('Der geladene Stand ersetzt die aktuelle Bearbeitung. Fortfahren?'))return;S=n;vorbereiten();FB=null;MODAL=null;render();toast('Arbeitsstand geladen.');return;}let A=null;try{A=leseAufgabe(o);}catch(e){}if(!A){toast('Die Datei ist keine gültige Aufgaben- oder Standdatei.',true);return;}if(wechsel(A))toast('Aufgabe geladen.');});},
+ reset(){if(!confirm('Wirklich alle Buchungen dieser Aufgabe löschen?'))return;const alt=S;ladeAufgabe(S.aufgabe,alt);MODAL=null;render();},
+ ladebuiltin(){wechsel(normAufgabe(dec(BUILTIN)));},
+ laderepo(d){const r=REPO[+d.i];fetch('aufgaben/'+r.datei).then(x=>x.json()).then(o=>{const A=leseAufgabe(o);if(!A)throw 0;wechsel(A);}).catch(()=>toast('Die Aufgabe konnte nicht geladen werden.',true));},
+ editor(){if(!ED){try{ED=JSON.parse(localStorage.getItem(EDKEY)||'null');}catch(e){}if(!ED)ED=edNeu();}MODAL=null;S.view='editor';render();window.scrollTo(0,0);},
+ edzurueck(){S.view='start';render();},
+ edfadd(d){ED[d.arr].push({nr:String(ED[d.arr].length+1),text:'',lsg:''});edSave();render();},
+ edfdel(d){ED[d.arr].splice(+d.n,1);edSave();render();},
+ edcheck(){ED.errs=edBauen().errs;render();},
+ edexport(){const r=edBauen();ED.errs=r.errs;if(r.errs.length){render();toast('Bitte zuerst die markierten Punkte korrigieren.',true);return;}ED.id=r.task.id;edSave();download('Aufgabe_'+dateiName(r.task.titel)+'.json',JSON.stringify({format:'fow-buchen-aufgabe',version:1,titel:r.task.titel,d:enc(r.task)}));render();toast('Aufgabendatei exportiert.');},
+ edtest(){const r=edBauen();ED.errs=r.errs;if(r.errs.length){render();return;}edSave();ladeAufgabe(r.task,S);render();window.scrollTo(0,0);toast('Aufgabe zum Testen geladen.');},
+ edleer(){if(!confirm('Formular wirklich leeren?'))return;ED=edNeu();edSave();render();},
+ edopen(){importDatei(o=>{let A=null;try{A=leseAufgabe(o);}catch(e){}if(!A){toast('Keine gültige Aufgabendatei.',true);return;}if(A.pin&&prompt('Lehrer-PIN dieser Aufgabe:')!==A.pin){toast('Die PIN ist nicht richtig.',true);return;}ED=edAus(A);edSave();render();});},
+ edbild(){importDatei(url=>{if(url.length>1500000)toast('Das Bild ist sehr groß. Kleinere Bilder laden schneller.',true);ED.bild=url;edSave();render();},'image/*');},
+ edbildweg(){ED.bild='';edSave();render();}
+};
+const INP={
+ betrag(el){S.draft[el.dataset.s][+el.dataset.n].b=el.value;const w=$('#waage');if(w)w.outerHTML=waageHtml();},
+ name(el){S.name=el.value;},klasse(el){S.klasse=el.value;},
+ ksuche(el){PICK.q=el.value;$('#klist').innerHTML=pickList();},
+ ad(el){(AD[el.dataset.k]=AD[el.dataset.k]||{b:'',z:''})[el.dataset.f]=el.value;},
+ ed(el){ED[el.dataset.f]=el.value;ED.errs=null;edSave();},
+ edf(el){ED[el.dataset.arr][+el.dataset.n][el.dataset.f]=el.value;ED.errs=null;edSave();}
+};
+document.addEventListener('click',ev=>{const el=ev.target.closest('[data-a]');if(!el||el.disabled)return;const f=AKT[el.dataset.a];if(f)f(el.dataset,el,ev);});
+document.addEventListener('input',ev=>{const el=ev.target;if(el.dataset&&el.dataset.i&&INP[el.dataset.i])INP[el.dataset.i](el);});
+document.addEventListener('change',ev=>{const el=ev.target;if(el.dataset&&el.dataset.i&&INP[el.dataset.i]){if(el.tagName==='SELECT')INP[el.dataset.i](el);if(S&&!PICK)save();}});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&MODAL){MODAL=null;PICK=null;renderModal();}if(ev.key==='Enter'&&ev.target.dataset&&ev.target.dataset.i==='betrag'){const b=$('[data-a="buchen"]');if(b)b.click();}});
+window.addEventListener('beforeprint',baueDruck);
+
+/* ---------- Start ---------- */
+(function start(){
+ if(!restore())ladeAufgabe(normAufgabe(dec(BUILTIN)));
+ if(S.view==='editor')S.view='start';
+ render();
+ if(location.protocol.startsWith('http')){
+  fetch('aufgaben/index.json').then(r=>r.ok?r.json():[]).then(l=>{if(Array.isArray(l))REPO=l.filter(x=>x&&x.datei);
+   const p=new URLSearchParams(location.search).get('aufgabe');if(p&&/^[\w.\-äöüÄÖÜß]+\.json$/.test(p)&&!S.buch.some(e=>e.nr))fetch('aufgaben/'+p).then(r=>r.json()).then(o=>{const A=leseAufgabe(o);if(A&&A.id!==S.aufgabe.id){ladeAufgabe(A,S);render();}}).catch(()=>{});
+  }).catch(()=>{});
+ }
+})();
+window.__app={get S(){return S;},AKT,salden,bilanzAus,erfolg,abschlussFertig,get FAELLE(){return FAELLE;},kzDaten,KZ,kzWert,edBauen,set ED(v){ED=v;},get ED(){return ED;},edNeu,edAus,enc,dec,unposted,auswertung};
+</script>
+</body>
+</html>
